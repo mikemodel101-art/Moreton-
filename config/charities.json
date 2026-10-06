@@ -1,0 +1,15 @@
+{
+  "note": "Mock ACNC-style charity registry for the prototype ABN lookup. Dummy data only.",
+  "charities": [
+    { "abn": "64 962 926 584", "name": "Cancer Council Queensland", "status": "Registered charity · DGR endorsed" },
+    { "abn": "11 005 304 391", "name": "RSPCA Queensland", "status": "Registered charity · DGR endorsed" },
+    { "abn": "46 004 073 410", "name": "The Fred Hollows Foundation", "status": "Registered charity · DGR endorsed" },
+    { "abn": "87 008 426 985", "name": "Starlight Children's Foundation Australia", "status": "Registered charity · DGR endorsed" },
+    { "abn": "87 093 865 840", "name": "Beyond Blue Ltd", "status": "Registered charity · DGR endorsed" },
+    { "abn": "74 637 406 910", "name": "Médecins Sans Frontières Australia", "status": "Registered charity · DGR endorsed" },
+    { "abn": "57 000 051 696", "name": "The Salvation Army (Qld)", "status": "Registered charity · DGR endorsed" },
+    { "abn": "29 134 196 010", "name": "Guide Dogs Queensland", "status": "Registered charity · DGR endorsed" },
+    { "abn": "30 008 443 619", "name": "Royal Flying Doctor Service (Queensland Section)", "status": "Registered charity · DGR endorsed" },
+    { "abn": "33 609 808 518", "name": "Queensland Country Women's Association", "status": "Registered charity" }
+  ]
+}

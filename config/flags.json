@@ -1,0 +1,432 @@
+{
+  "prototypeMode": true,
+  "demoPersonaSwitcher": true,
+  "stripeTestMode": true,
+  "emailDelivery": "preview-only",
+  "maintenanceMode": false,
+  "mockScreens": { "vault": true, "reminders": true, "executor": true },
+  "userTestingMode": true,
+  "livePreview": true,
+
+  "severityModel": {
+    "info": { "weight": 1, "label": "Informational", "effect": "No change to review path.", "blocksAutoApproval": false },
+    "medium": { "weight": 3, "label": "Needs attention", "effect": "Reviewing lawyer must acknowledge before approval.", "blocksAutoApproval": true },
+    "high": { "weight": 7, "label": "High", "effect": "Requires senior lawyer sign-off.", "blocksAutoApproval": true },
+    "blocker": { "weight": 20, "label": "Blocker", "effect": "Cannot proceed online — offer a consultation.", "blocksAutoApproval": true }
+  },
+
+  "complexityBands": [
+    { "id": "straightforward", "label": "Straightforward", "maxScore": 4, "routing": "lawyer", "sla": 2 },
+    { "id": "needs_attention", "label": "Needs attention", "maxScore": 12, "routing": "lawyer", "sla": 3 },
+    { "id": "complex", "label": "Complex", "maxScore": 9999, "routing": "senior-lawyer", "sla": 5 }
+  ],
+
+  "largeEstateThreshold": 2000000,
+
+  "triageRules": [
+    {
+      "id": "RES_INTERSTATE_OVERSEAS",
+      "severity": "medium",
+      "category": "Jurisdiction",
+      "label": "Interstate / overseas residence",
+      "trigger": { "in": [{ "var": "answers.livesInQLD" }, ["interstate", "overseas"]] },
+      "clientMessage": "You live outside Queensland, so a lawyer will check this will works properly where you are.",
+      "lawyerMessage": "Client resides outside QLD. Confirm the will effectively deals with their assets and whether local advice or a separate will is required.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "ASSET_FOREIGN",
+      "severity": "high",
+      "category": "Jurisdiction",
+      "label": "Overseas assets",
+      "trigger": { "or": [{ "in": ["overseas", { "var": "answers.assetTypes" }] }, { "in": ["overseas", { "var": "answers.structures" }] }] },
+      "clientMessage": "Because you hold assets overseas, a lawyer will make sure nothing is left unprotected in another country.",
+      "lawyerMessage": "Overseas assets detected. A QLD will may not deal effectively with foreign property — consider separate situs wills and revocation wording.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "FP_DISINHERIT_CHILD",
+      "severity": "high",
+      "category": "Family provision risk",
+      "label": "Child left out of will",
+      "trigger": { "==": [{ "var": "derived.excludedChild" }, true] },
+      "clientMessage": "A lawyer will discuss this with you to make sure your wishes are clear and protected.",
+      "lawyerMessage": "Child excluded from estate. Consider family provision exposure (Succession Act 1981 (Qld) Part 4); recommend detailed file note of reasons and advice on alternatives.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "FP_DISINHERIT_OTHER",
+      "severity": "high",
+      "category": "Family provision risk",
+      "label": "Spouse / dependant left out",
+      "trigger": { "==": [{ "var": "answers.excludingAnyone" }, "yes"] },
+      "clientMessage": "A lawyer will talk this through with you and record your reasons properly — that's the best protection for your wishes.",
+      "lawyerMessage": "Client intends to exclude an eligible applicant (spouse, de facto, child or dependant). Assess Part 4 exposure, record reasons, consider a statement of testamentary intention.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "FAM_BLENDED",
+      "severity": "high",
+      "category": "Family provision risk",
+      "label": "Blended family",
+      "trigger": { "==": [{ "var": "derived.blendedFamily" }, true] },
+      "clientMessage": "Blended families need extra care, so a lawyer will check the wording protects everyone you intend to provide for.",
+      "lawyerMessage": "Current partner plus children from a prior relationship. Elevated family provision risk; consider life interest, mutual wills or testamentary trust options.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "BEN_MINOR",
+      "severity": "medium",
+      "category": "Vulnerable beneficiary",
+      "label": "Minor beneficiaries",
+      "trigger": { "==": [{ "var": "derived.hasMinorChildren" }, true] },
+      "clientMessage": "Because children under 18 are involved, a lawyer will check the guardianship and trust wording.",
+      "lawyerMessage": "Beneficiaries under 18. Confirm minors' trust provisions, trustee powers and guardianship appointment are consistent.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "BEN_VULNERABLE",
+      "severity": "high",
+      "category": "Vulnerable beneficiary",
+      "label": "Disability / NDIS / Centrelink beneficiary",
+      "trigger": { "or": [{ "in": [{ "var": "answers.vulnerableBeneficiary" }, ["yes", "unsure"]] }, { "==": [{ "var": "derived.childDisability" }, true] }] },
+      "clientMessage": "A lawyer will make sure an inheritance doesn't accidentally affect anyone's support payments.",
+      "lawyerMessage": "Beneficiary with disability or means-tested support. Consider a Special Disability Trust or protective trust to preserve DSP/NDIS entitlements.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "TRUST_TESTAMENTARY",
+      "severity": "medium",
+      "category": "Trust structures",
+      "label": "Testamentary trust requested",
+      "trigger": { "or": [{ "in": [{ "var": "answers.trustChoice" }, ["trust_21", "trust_25", "trust_30"]] }, { "==": [{ "var": "answers.vulnerableBeneficiary" }, "yes"] }] },
+      "clientMessage": "You've asked for money to be held in trust, so a lawyer will set that up carefully.",
+      "lawyerMessage": "Testamentary trust requested or implied. Draft trust provisions, appoint trustee and appointor, confirm vesting age and tax treatment.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "STRUCT_BUSINESS",
+      "severity": "high",
+      "category": "Structures & super",
+      "label": "Business / trust / SMSF",
+      "trigger": { "or": [{ "in": ["business", { "var": "answers.structures" }] }, { "in": ["trust", { "var": "answers.structures" }] }, { "in": ["smsf", { "var": "answers.structures" }] }, { "in": ["business", { "var": "answers.assetTypes" }] }] },
+      "clientMessage": "Business and trust interests need specialist attention — a lawyer will review how they pass on.",
+      "lawyerMessage": "Client controls a business, family trust or SMSF. These assets may not pass under the will. Confirm control succession, appointor role, buy/sell agreements and SMSF trusteeship.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "SUPER_NOMINATION",
+      "severity": "medium",
+      "category": "Structures & super",
+      "label": "Super / life insurance nomination",
+      "trigger": { "or": [{ "in": [{ "var": "answers.superNomination" }, ["no", "unsure", "yes_person"]] }, { "in": ["life", { "var": "answers.assetTypes" }] }] },
+      "clientMessage": "Super and life insurance don't always follow your will — a lawyer will point out what to check with your fund.",
+      "lawyerMessage": "Superannuation death benefit or life insurance may pass outside the estate. Advise on binding nominations and whether proceeds should be directed to the estate.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "PROP_TENANCY",
+      "severity": "medium",
+      "category": "Property",
+      "label": "Tenants in common / structured property",
+      "trigger": { "in": [{ "var": "answers.propertyOwnership" }, ["tenants_in_common", "trust_or_company", "unsure"]] },
+      "clientMessage": "A lawyer will check how your property is held — it decides whether it passes under your will.",
+      "lawyerMessage": "Property held as tenants in common, via a structure, or ownership unknown. Obtain title search; confirm whether the share passes under the will and how mortgage debt is borne.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "GIFT_PROPERTY",
+      "severity": "high",
+      "category": "Gifts",
+      "label": "Gift of real property",
+      "trigger": { "==": [{ "var": "derived.hasPropertyGift" }, true] },
+      "clientMessage": "You're gifting property, so a lawyer will confirm the details and any mortgage.",
+      "lawyerMessage": "Specific devise of real property. Confirm title, whether gift carries the mortgage (s 61 Succession Act), and ademption risk if sold before death.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "GIFT_DIGITAL",
+      "severity": "medium",
+      "category": "Gifts",
+      "label": "Crypto / digital asset gift",
+      "trigger": { "or": [{ "==": [{ "var": "derived.hasDigitalGift" }, true] }, { "==": [{ "var": "answers.hasDigitalAssets" }, "yes"] }] },
+      "clientMessage": "Digital assets need a secure plan for access — a lawyer will arrange that alongside your will.",
+      "lawyerMessage": "Crypto or digital assets present. Without private keys the gift fails. Arrange a confidential access memorandum; avoid placing keys in the will itself.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "GIFT_CONDITIONAL",
+      "severity": "medium",
+      "category": "Gifts",
+      "label": "Conditional gift / gift over",
+      "trigger": { "or": [{ "==": [{ "var": "derived.hasConditionalGift" }, true] }, { "==": [{ "var": "derived.hasGiftOver" }, true] }] },
+      "clientMessage": "You've added a condition to a gift — a lawyer will make sure it will actually work.",
+      "lawyerMessage": "Conditional gift or gift-over structure. Check for uncertainty, repugnancy and public policy; confirm the condition is a condition subsequent or precedent as intended.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "GIFT_PROPORTION",
+      "severity": "medium",
+      "category": "Gifts",
+      "label": "Cash gifts large vs estate",
+      "trigger": { "==": [{ "var": "derived.cashGiftsHeavy" }, true] },
+      "clientMessage": "Your gifts are a sizeable share of your estate — a lawyer will check the residue still works as you intend.",
+      "lawyerMessage": "Specific cash gifts exceed ~25% of the declared estate band. Advise on abatement risk and whether gifts should be proportionate rather than fixed.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "EXEC_UNDER18",
+      "severity": "blocker",
+      "category": "Executors",
+      "label": "Executor under 18",
+      "trigger": { "in": ["under18", { "var": "answers.executorIssues" }] },
+      "clientMessage": "An executor must be at least 18. Let's find a better way forward together.",
+      "lawyerMessage": "Executor under 18 cannot obtain a grant. Online path blocked; client directed to a consultation.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "EXEC_OVERSEAS",
+      "severity": "medium",
+      "category": "Executors",
+      "label": "Executor overseas",
+      "trigger": { "in": ["overseas", { "var": "answers.executorIssues" }] },
+      "clientMessage": "Your executor lives overseas — a lawyer will suggest how to make their job easier.",
+      "lawyerMessage": "Overseas executor. Probate, bank access and tax residency complications; recommend appointing a resident co-executor.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "EXEC_BANKRUPT",
+      "severity": "high",
+      "category": "Executors",
+      "label": "Executor bankrupt / capacity concern",
+      "trigger": { "or": [{ "in": ["bankrupt", { "var": "answers.executorIssues" }] }, { "in": ["capacity", { "var": "answers.executorIssues" }] }] },
+      "clientMessage": "A lawyer will talk through your executor choice with you — nothing is ruled out yet.",
+      "lawyerMessage": "Executor bankrupt or possible incapacity. The court may refuse a grant; discuss substitution or a professional executor.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "EXEC_PROFESSIONAL",
+      "severity": "info",
+      "category": "Executors",
+      "label": "Professional executor requested",
+      "trigger": { "in": [{ "var": "answers.professionalExecutor" }, ["firm", "trustee", "unsure"]] },
+      "clientMessage": "We'll send you a written quote for a professional executor before anything is finalised.",
+      "lawyerMessage": "Client interested in a professional executor. Prepare fee quote and charging clause disclosure before approval.",
+      "routing": "lawyer",
+      "blocksAutoApproval": false
+    },
+    {
+      "id": "EXEC_NOT_TOLD",
+      "severity": "info",
+      "category": "Executors",
+      "label": "Executors not yet asked",
+      "trigger": { "in": [{ "var": "answers.spokenToExecutors" }, ["not_yet", "no"]] },
+      "clientMessage": "Worth telling the people you've named — we can help you do it.",
+      "lawyerMessage": "Executors not yet informed. Nudge client; a renunciation after death causes months of delay.",
+      "routing": "lawyer",
+      "blocksAutoApproval": false
+    },
+    {
+      "id": "WILL_REVOCATION_UNCLEAR",
+      "severity": "high",
+      "category": "Prior wills",
+      "label": "Unclear revocation / overseas will",
+      "trigger": { "and": [{ "==": [{ "var": "answers.existingWill" }, "yes"] }, { "or": [{ "==": [{ "var": "answers.overseasWill" }, "yes"] }, { "==": [{ "var": "answers.revokeExistingWill" }, "no"] }] }] },
+      "clientMessage": "You have an earlier will, so a lawyer will make sure the new one fits together with it properly.",
+      "lawyerMessage": "Existing will with overseas element or partial revocation requested. Confirm revocation wording does not inadvertently revoke foreign coverage; obtain copy of prior will.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "REL_RECENT_CHANGE",
+      "severity": "medium",
+      "category": "Relationship",
+      "label": "Recent / planned marriage",
+      "trigger": { "or": [{ "==": [{ "var": "answers.relationshipRecent" }, "yes"] }, { "==": [{ "var": "answers.planningToMarry" }, "yes"] }] },
+      "clientMessage": "Marriage can affect an existing will, so a lawyer will confirm the right wording for you.",
+      "lawyerMessage": "Recent or contemplated marriage. s 14 Succession Act 1981 (Qld) — marriage revokes a will unless made in contemplation. Add contemplation clause if appropriate.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "REL_SEPARATION_PENDING",
+      "severity": "high",
+      "category": "Relationship",
+      "label": "Separation / settlement pending",
+      "trigger": { "or": [{ "==": [{ "var": "answers.maritalStatus" }, "separated"] }, { "==": [{ "var": "answers.proceedingsComplete" }, "no"] }] },
+      "clientMessage": "Because your separation isn't finalised, a lawyer will check what that means for your will.",
+      "lawyerMessage": "Separation or property settlement incomplete. Former spouse may retain entitlements and a family provision claim; divorce will later affect gifts (s 15). Advise before approval.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "CAP_AGE",
+      "severity": "high",
+      "category": "Capacity & influence",
+      "label": "Capacity check (85+)",
+      "trigger": { ">": [{ "var": "derived.age" }, 84] },
+      "clientMessage": "We take extra care with every will — a senior lawyer will review yours personally.",
+      "lawyerMessage": "Will-maker aged 85+. Consider contemporaneous capacity assessment, solicitor's certificate and detailed file note (Banks v Goodfellow).",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "CAP_UNDUE_INFLUENCE",
+      "severity": "blocker",
+      "category": "Capacity & influence",
+      "label": "Possible undue influence",
+      "trigger": { "==": [{ "var": "derived.helperIsBeneficiary" }, true] },
+      "clientMessage": "We'd like to talk with you directly before going further — it's how we make sure your will is truly yours.",
+      "lawyerMessage": "Person assisting the client is also a beneficiary. Undue influence / knowledge and approval risk. Online path blocked; arrange an interview with the client alone.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "EST_LARGE",
+      "severity": "high",
+      "category": "Estate scale",
+      "label": "Large estate",
+      "trigger": { "in": [{ "var": "answers.estateValue" }, ["2m_5m", "over_5m"]] },
+      "clientMessage": "For estates of this size, a senior lawyer reviews everything personally.",
+      "lawyerMessage": "Estate exceeds the $2m threshold. Confirm CGT, testamentary trust and asset protection advice has been considered; senior sign-off required.",
+      "routing": "senior-lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "ANS_UNSURE_STRUCTURAL",
+      "severity": "medium",
+      "category": "Answer quality",
+      "label": "'Not sure' on a structural question",
+      "trigger": { "==": [{ "var": "derived.unsureOnStructural" }, true] },
+      "clientMessage": "You weren't sure about something important — a lawyer will help you work it out.",
+      "lawyerMessage": "Client answered 'I'm not sure' on a structural question (property tenure, super nomination, residue or beneficiary status). Resolve before drafting.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "ANS_INCONSISTENT",
+      "severity": "medium",
+      "category": "Answer quality",
+      "label": "Inconsistent answers",
+      "trigger": { "==": [{ "var": "derived.hasInconsistency" }, true] },
+      "clientMessage": "A couple of your answers don't quite line up — we'll help you tidy them before submitting.",
+      "lawyerMessage": "Automated consistency checker found contradictions in the client's answers. Review the list on the matter before drafting.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "PET_LARGE_GIFT",
+      "severity": "medium",
+      "category": "Gifts",
+      "label": "Large pet-care gift",
+      "trigger": { ">": [{ "var": "answers.petAmount" }, 20000] },
+      "clientMessage": "A lawyer will check the amount you've set aside for your pets is structured well.",
+      "lawyerMessage": "Pet-care gift exceeds $20,000. Frequently challenged; consider a smaller sum with a non-binding wish, or a purpose trust analysis.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    },
+    {
+      "id": "ORGAN_DONATION",
+      "severity": "info",
+      "category": "Wishes",
+      "label": "Organ donation wish",
+      "trigger": { "==": [{ "var": "answers.organDonation" }, "yes"] },
+      "clientMessage": "Remember to register your decision and tell your family — a will is usually read too late.",
+      "lawyerMessage": "Organ donation wish recorded. Remind client the will is not an effective vehicle; direct to the Australian Organ Donor Register.",
+      "routing": "lawyer",
+      "blocksAutoApproval": false
+    },
+    {
+      "id": "CUSTOM_DRAFTING",
+      "severity": "medium",
+      "category": "Drafting",
+      "label": "Bespoke division / survivorship",
+      "trigger": { "or": [{ "==": [{ "var": "answers.backupRule" }, "custom"] }, { "==": [{ "var": "answers.residueStructure" }, "custom"] }] },
+      "clientMessage": "You've described something custom — a lawyer will draft it and confirm the wording with you.",
+      "lawyerMessage": "Client supplied free-text instructions for residue division or survivorship. Draft bespoke wording and confirm back to client in writing.",
+      "routing": "lawyer",
+      "blocksAutoApproval": true
+    }
+  ],
+
+  "consistencyChecks": [
+    {
+      "id": "CHK_NO_CHILDREN_BUT_GUARDIAN",
+      "message": "You said you don't have children, but you've named a guardian for children.",
+      "when": { "and": [{ "==": [{ "var": "answers.hasChildren" }, "no"] }, { "truthy": [{ "var": "answers.guardianName" }] }] },
+      "fix": { "step": "about", "questionId": "hasChildren" }
+    },
+    {
+      "id": "CHK_PARTNER_RESIDUE_NO_PARTNER",
+      "message": "You chose to leave everything to a partner, but your relationship status is single, divorced or widowed.",
+      "when": { "and": [{ "==": [{ "var": "answers.residueStructure" }, "all_partner"] }, { "in": [{ "var": "answers.maritalStatus" }, ["single", "divorced", "widowed"]] }] },
+      "fix": { "step": "divide", "questionId": "residueStructure" }
+    },
+    {
+      "id": "CHK_SPLIT_CHILDREN_NO_CHILDREN",
+      "message": "You chose to split your estate between your children, but you haven't listed any children.",
+      "when": { "and": [{ "==": [{ "var": "answers.residueStructure" }, "split_children"] }, { "==": [{ "var": "answers.hasChildren" }, "no"] }] },
+      "fix": { "step": "divide", "questionId": "residueStructure" }
+    },
+    {
+      "id": "CHK_PETS_NO_PETS",
+      "message": "You said you don't have pets, but you've set money aside for pet care.",
+      "when": { "and": [{ "==": [{ "var": "answers.hasPets" }, "no"] }, { ">": [{ "var": "answers.petAmount" }, 0] }] },
+      "fix": { "step": "pets", "questionId": "hasPets" }
+    },
+    {
+      "id": "CHK_NO_GIFTS_BUT_GIFTS_LISTED",
+      "message": "You said you don't want specific gifts, but gifts are still recorded on your matter.",
+      "when": { "and": [{ "==": [{ "var": "answers.hasSpecificGifts" }, "no"] }, { ">": [{ "var": "derived.giftCount" }, 0] }] },
+      "fix": { "step": "gifts", "questionId": "hasSpecificGifts" }
+    },
+    {
+      "id": "CHK_EXCLUDING_NO_NAMES",
+      "message": "You said you're leaving someone out, but haven't said who.",
+      "when": { "and": [{ "==": [{ "var": "answers.excludingAnyone" }, "yes"] }, { "!": [{ "truthy": [{ "var": "answers.excludedNames" }] }] }] },
+      "fix": { "step": "divide", "questionId": "excludedNames" }
+    },
+    {
+      "id": "CHK_DONATIONS_NO_CHARITY",
+      "message": "You asked for donations instead of flowers, but haven't named a charity.",
+      "when": { "and": [{ "in": [{ "var": "answers.flowersDonations" }, ["donations", "both"]] }, { "!": [{ "truthy": [{ "var": "answers.donationCharity" }] }] }] },
+      "fix": { "step": "funeral", "questionId": "donationCharity" }
+    },
+    {
+      "id": "CHK_PREPAID_NO_PROVIDER",
+      "message": "You have a prepaid funeral, but haven't named the provider.",
+      "when": { "and": [{ "==": [{ "var": "answers.prepaidFuneral" }, "yes"] }, { "!": [{ "truthy": [{ "var": "answers.prepaidProvider" }] }] }] },
+      "fix": { "step": "funeral", "questionId": "prepaidProvider" }
+    },
+    {
+      "id": "CHK_SHARES_NOT_100",
+      "message": "The shares of your residuary estate don't add up to 100%.",
+      "when": { "==": [{ "var": "derived.sharesInvalid" }, true] },
+      "fix": { "step": "divide", "questionId": "residueBeneficiaries" }
+    },
+    {
+      "id": "CHK_EXECUTOR_IS_EXCLUDED",
+      "message": "Someone you've named as executor also appears in the list of people you're not providing for.",
+      "when": { "==": [{ "var": "derived.executorAlsoExcluded" }, true] },
+      "fix": { "step": "executors", "questionId": "executors" }
+    }
+  ]
+}

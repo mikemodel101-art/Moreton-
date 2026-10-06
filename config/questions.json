@@ -1,0 +1,403 @@
+{
+  "version": 8,
+  "sections": [
+    {
+      "id": "about",
+      "title": "About you",
+      "description": "Your identity, relationship, children and anything that complicates the picture.",
+      "icon": "user",
+      "minutes": 6,
+      "intro": "Your legal identity, exactly as it should appear on your will.",
+      "questions": [
+        { "id": "fullName", "type": "text", "label": "Full legal name", "required": true, "minLength": 2, "maxLength": 120, "help": "As shown on your passport or driver licence.", "placeholder": "e.g. Jane Mary Citizen", "why": "Your will must name you precisely, or assets held in another name can be disputed later." },
+        { "id": "previousNames", "type": "text", "label": "Any other names you've used (aliases)", "required": false, "maxLength": 120, "help": "Maiden names or former names your assets may be held under.", "placeholder": "Optional", "why": "If your home or super is in an old name, your lawyer will note both so nothing gets stuck." },
+        { "id": "dob", "type": "date", "label": "Date of birth", "required": true, "mustBeAdult": true, "why": "In Queensland you generally must be 18 or older. Your age also helps your lawyer spot issues like capacity checks for older will-makers." },
+        { "id": "livesInQLD", "type": "radio", "label": "Do you live in Queensland?", "required": true, "options": [
+          { "value": "yes", "label": "Yes, I live in QLD" },
+          { "value": "interstate", "label": "No — another state or territory" },
+          { "value": "overseas", "label": "No — I live overseas" }
+        ], "why": "This service prepares wills under Queensland law. Living elsewhere doesn't stop you, but your lawyer may need extra care with interstate or overseas property." },
+        { "id": "address", "type": "address", "label": "Residential address", "required": true, "why": "Your address appears in the will's opening declaration to identify you." },
+        { "id": "occupation", "type": "text", "label": "Occupation", "required": false, "maxLength": 120, "placeholder": "e.g. Teacher", "why": "Traditional wills describe the will-maker by name, address and occupation — it helps prove identity." },
+        { "id": "phone", "type": "tel", "label": "Mobile number", "required": true, "pattern": "au-phone", "placeholder": "04XX XXX XXX", "why": "Your lawyer may call with questions instead of making you wait for an appointment." },
+        { "id": "maritalStatus", "type": "radio", "label": "What is your current relationship status?", "required": true, "options": [
+          { "value": "single", "label": "Single" },
+          { "value": "married", "label": "Married" },
+          { "value": "defacto", "label": "De facto / civil partnership" },
+          { "value": "separated", "label": "Separated (not divorced)" },
+          { "value": "divorced", "label": "Divorced" },
+          { "value": "widowed", "label": "Widowed" }
+        ], "why": "Marriage can revoke an existing will in Queensland, and an ex-spouse may still have claims. Your lawyer checks this carefully." },
+        { "id": "partnerName", "type": "text", "label": "Partner's full legal name", "required": true, "maxLength": 120, "visibleIf": { "in": [{ "var": "maritalStatus" }, ["married", "defacto", "separated"]] }, "why": "So your will can name your partner exactly — especially important if they're your executor or a beneficiary." },
+        { "id": "partnerDob", "type": "date", "label": "Partner's date of birth", "required": false, "visibleIf": { "in": [{ "var": "maritalStatus" }, ["married", "defacto", "separated"]] }, "why": "Helps your lawyer identify the right person unambiguously." },
+        { "id": "relationshipRecent", "type": "radio", "label": "Did you marry or partner recently, or plan to soon?", "required": true, "visibleIf": { "in": [{ "var": "maritalStatus" }, ["married", "defacto"]] }, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "why": "In Queensland, marrying generally cancels a will made before the marriage. Your lawyer will confirm the advice that applies to you." },
+        { "id": "proceedingsComplete", "type": "radio", "label": "Are formal proceedings or a property settlement complete?", "required": true, "visibleIf": { "in": [{ "var": "maritalStatus" }, ["separated", "divorced"]] }, "options": [
+          { "value": "yes", "label": "Yes, all finalised" },
+          { "value": "no", "label": "No, still in progress" }
+        ], "why": "Until a settlement is final, your former spouse may still be entitled to claim." },
+        { "id": "planningToMarry", "type": "radio", "label": "Are you planning to marry or enter a civil partnership soon?", "required": true, "visibleIf": { "in": [{ "var": "maritalStatus" }, ["single", "divorced", "widowed"]] }, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "why": "A will is generally revoked by marriage unless it's written in contemplation of that marriage — your lawyer can add the right words." },
+        { "id": "hasChildren", "type": "radio", "label": "Do you have any children — including adopted, step, or from earlier relationships?", "required": true, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "why": "Children — including step-children you treat as your own — can have legal claims on your estate whether or not they're in the will." },
+        { "id": "children", "type": "repeater", "label": "Your children", "required": true, "minItems": 1, "maxItems": 12, "addLabel": "Add another child", "visibleIf": { "==": [{ "var": "hasChildren" }, "yes"] }, "itemDefaults": { "includeInWill": true }, "why": "Ages, relationships and any special circumstances guide guardianship, trust provisions, and risk of a family provision claim.", "fields": [
+          { "id": "name", "type": "text", "label": "Child's full name", "required": true },
+          { "id": "dob", "type": "date", "label": "Date of birth", "required": true },
+          { "id": "relationship", "type": "select", "label": "Relationship", "required": true, "options": [
+            { "value": "child", "label": "My child" },
+            { "value": "adopted", "label": "Adopted child" },
+            { "value": "step", "label": "Step-child" },
+            { "value": "foster", "label": "Foster child" }
+          ] },
+          { "id": "previousRelationship", "type": "checkbox", "label": "This child is from a previous relationship", "required": false },
+          { "id": "hasDisability", "type": "checkbox", "label": "This child has a disability or special needs", "required": false },
+          { "id": "includeInWill", "type": "checkbox", "label": "Include this child in my will", "required": false }
+        ] },
+        { "id": "existingWill", "type": "radio", "label": "Do you already have a will anywhere?", "required": true, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "why": "Most wills start by revoking earlier ones. An overseas will may need to stay in place for overseas assets." },
+        { "id": "revokeExistingWill", "type": "radio", "label": "Do you want this will to revoke it?", "required": true, "visibleIf": { "==": [{ "var": "existingWill" }, "yes"] }, "options": [
+          { "value": "yes", "label": "Yes, revoke it" },
+          { "value": "no", "label": "No — keep both (lawyer will advise)" }
+        ], "why": "Keeping two wills can work for assets in different countries, but done wrong it can cancel parts you meant to keep." },
+        { "id": "overseasWill", "type": "radio", "label": "Is any existing will made overseas?", "required": true, "visibleIf": { "==": [{ "var": "existingWill" }, "yes"] }, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "why": "Revoking an overseas will by accident can leave foreign assets without instructions." },
+        { "id": "structures", "type": "checkboxes", "label": "Do you own or control any of these?", "required": false, "options": [
+          { "value": "business", "label": "A business or company" },
+          { "value": "trust", "label": "A family trust" },
+          { "value": "smsf", "label": "A self-managed super fund" },
+          { "value": "overseas", "label": "Overseas property or accounts" }
+        ], "why": "These don't always pass under a will — they need specific planning, and your lawyer is flagged to review them." },
+        { "id": "hasHelper", "type": "radio", "label": "Is someone helping you complete this questionnaire?", "required": true, "options": [
+          { "value": "no", "label": "No — I'm doing this myself" },
+          { "value": "yes", "label": "Yes, someone is helping me" }
+        ], "help": "Help is completely fine — we just need to know who.", "why": "A will must be your own free decision. If the person helping also benefits from your will, we pause and speak with you privately. It protects your will from being challenged later." },
+        { "id": "helperName", "type": "text", "label": "Who is helping you?", "required": true, "maxLength": 120, "visibleIf": { "==": [{ "var": "hasHelper" }, "yes"] }, "why": "So your lawyer knows who was present — it's recorded on the file, nothing more." },
+        { "id": "helperIsBeneficiary", "type": "radio", "label": "Does that person receive anything under your will?", "required": true, "visibleIf": { "==": [{ "var": "hasHelper" }, "yes"] }, "options": [
+          { "value": "no", "label": "No" },
+          { "value": "yes", "label": "Yes" },
+          { "value": "unsure", "label": "Not sure" }
+        ], "why": "If so, we'll arrange a short private conversation with you before going further — standard practice that makes your will much harder to challenge." },
+        { "id": "hasOtherDependants", "type": "radio", "label": "Does anyone else rely on you financially? (other than children)", "required": true, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "help": "For example, a parent you support or a grandchild in your care.", "why": "Dependants may have claims on your estate even if you leave them nothing." },
+        { "id": "otherDependants", "type": "textarea", "label": "Who depends on you, and how?", "required": true, "maxLength": 600, "visibleIf": { "==": [{ "var": "hasOtherDependants" }, "yes"] }, "why": "A short note now lets your lawyer plan properly rather than discovering it later." }
+      ]
+    },
+    {
+      "id": "guardians",
+      "title": "Guardians",
+      "description": "Who raises your children if you can't — and what happens to money meant for them.",
+      "icon": "shield",
+      "minutes": 4,
+      "visibleIf": { "==": [{ "var": "derived.hasMinorChildren" }, true] },
+      "intro": "Because you have children under 18, you can nominate who should care for them.",
+      "questions": [
+        { "id": "appointGuardian", "type": "radio", "label": "Do you want to appoint a testamentary guardian?", "required": true, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "help": "Any surviving parent with parental responsibility usually continues regardless.", "why": "Naming a guardian puts your wishes on the record. Courts still decide on the child's best interests, but your nomination carries real weight." },
+        { "id": "guardianName", "type": "text", "label": "Guardian — full name", "required": true, "visibleIf": { "==": [{ "var": "appointGuardian" }, "yes"] }, "why": "A full legal name avoids confusion with relatives of the same first name." },
+        { "id": "guardianRelationship", "type": "select", "label": "Their relationship to you", "required": true, "visibleIf": { "==": [{ "var": "appointGuardian" }, "yes"] }, "options": [
+          { "value": "sibling", "label": "My sibling" },
+          { "value": "parent", "label": "My parent" },
+          { "value": "friend", "label": "Close friend" },
+          { "value": "other", "label": "Other" }
+        ], "why": "Context for your lawyer and, if ever needed, for a court." },
+        { "id": "guardianAddress", "type": "address", "label": "Guardian's address", "required": true, "visibleIf": { "==": [{ "var": "appointGuardian" }, "yes"] }, "why": "So the right person can be identified and found." },
+        { "id": "backupGuardianName", "type": "text", "label": "Backup guardian — full name (optional)", "required": false, "visibleIf": { "==": [{ "var": "appointGuardian" }, "yes"] }, "why": "If your first choice can't act, a written backup saves the family a difficult decision." },
+        { "id": "backupGuardianAddress", "type": "text", "label": "Backup guardian's address (optional)", "required": false, "visibleIf": { "truthy": [{ "var": "backupGuardianName" }] }, "why": "One plain-text line is enough for a backup." },
+        { "id": "sameGuardianAll", "type": "radio", "label": "Same guardian for all your children?", "required": true, "visibleIf": { "and": [{ "==": [{ "var": "appointGuardian" }, "yes"] }, { ">": [{ "var": "derived.childCount" }, 1] }] }, "options": [
+          { "value": "yes", "label": "Yes, same for all" },
+          { "value": "no", "label": "No — different for some" }
+        ], "why": "Splitting siblings is unusual and emotional; your lawyer will want to understand the reasoning." },
+        { "id": "guardianNotes", "type": "textarea", "label": "Which children, and who? (explain)", "required": true, "maxLength": 600, "visibleIf": { "==": [{ "var": "sameGuardianAll" }, "no"] }, "why": "Your lawyer drafts the appointment per child from this note." },
+        { "id": "otherParentStatus", "type": "radio", "label": "Do the children's other parent(s) live and have parental responsibility?", "required": true, "visibleIf": { "==": [{ "var": "appointGuardian" }, "yes"] }, "options": [
+          { "value": "alive_parental", "label": "Yes — living with full parental responsibility" },
+          { "value": "alive_limited", "label": "Yes — but orders limit their role" },
+          { "value": "deceased", "label": "No — other parent has died" },
+          { "value": "complicated", "label": "It's complicated" }
+        ], "why": "A surviving parent with parental responsibility normally decides, whatever the will says. Conflict here means your lawyer must advise before approval." },
+        { "id": "upbringingWishes", "type": "textarea", "label": "Any wishes about upbringing? (optional — schooling, faith, sport, contact)", "required": false, "maxLength": 800, "why": "Not legally binding, but guardians genuinely read and follow these wishes." },
+        { "id": "trustChoice", "type": "radio", "label": "Do you want money held for the children until a certain age?", "required": true, "visibleIf": { "==": [{ "var": "appointGuardian" }, "yes"] }, "options": [
+          { "value": "at_18", "label": "No — they inherit at 18" },
+          { "value": "trust_21", "label": "Hold until 21" },
+          { "value": "trust_25", "label": "Hold until 25" },
+          { "value": "trust_30", "label": "Hold until 30" }
+        ], "why": "A trust until 21–30 protects young people from inheriting too young, and adds tax advantages. Choosing one flags your matter for extra lawyer review." }
+      ]
+    },
+    {
+      "id": "pets",
+      "title": "Pets",
+      "description": "Who feeds the dog — and whether money follows.",
+      "icon": "paw",
+      "minutes": 3,
+      "skippable": true,
+      "intro": "Answer no and this step quietly skips itself.",
+      "questions": [
+        { "id": "hasPets", "type": "radio", "label": "Do you have pets that will need care?", "required": true, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "why": "Pets are property at law — without a direction, they can end up anywhere." },
+        { "id": "pets", "type": "repeater", "label": "Your pets", "required": true, "minItems": 1, "maxItems": 8, "addLabel": "Add another pet", "visibleIf": { "==": [{ "var": "hasPets" }, "yes"] }, "why": "Names and types make the direction unambiguous.", "fields": [
+          { "id": "animal", "type": "text", "label": "Animal (e.g. dog)", "required": true },
+          { "id": "petName", "type": "text", "label": "Pet's name", "required": true },
+          { "id": "breed", "type": "text", "label": "Breed (optional)", "required": false },
+          { "id": "carer", "type": "text", "label": "Who will care for them?", "required": true },
+          { "id": "backupCarer", "type": "text", "label": "Backup carer (optional)", "required": false }
+        ] },
+        { "id": "petMoney", "type": "radio", "label": "Do you want to leave money for their care?", "required": true, "visibleIf": { "==": [{ "var": "hasPets" }, "yes"] }, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "why": "A modest sum with the right person is enforceable; a fortune for a cat invites a court challenge." },
+        { "id": "petAmount", "type": "currency", "label": "Amount for pet care", "required": true, "min": 100, "max": 500000, "visibleIf": { "==": [{ "var": "petMoney" }, "yes"] }, "why": "Over $20,000 flags a lawyer review — large gifts to pets get contested more than almost anything." },
+        { "id": "petInstructions", "type": "textarea", "label": "Care instructions (optional — vet, diet, quirks)", "required": false, "maxLength": 400, "visibleIf": { "==": [{ "var": "hasPets" }, "yes"] }, "why": "The carer gets this note with the will. Small compassions." }
+      ]
+    },
+    {
+      "id": "executors",
+      "title": "Executors",
+      "description": "The people who carry out your wishes — and the backups behind them.",
+      "icon": "key",
+      "minutes": 5,
+      "intro": "Your executor is the person who actually does the work after you die: finding assets, paying debts, and giving people what you left them. Choose someone organised, trustworthy and likely to outlive you.",
+      "explainer": "executor",
+      "questions": [
+        { "id": "executors", "type": "repeater", "label": "Your executor(s) — up to 4", "required": true, "minItems": 1, "maxItems": 4, "addLabel": "Add another executor", "why": "You can appoint up to four people to act together. Two is common: it shares the load and covers illness or travel.", "fields": [
+          { "id": "name", "type": "text", "label": "Full legal name", "required": true },
+          { "id": "relationship", "type": "select", "label": "Relationship to you", "required": true, "options": [
+            { "value": "spouse", "label": "Spouse / partner" },
+            { "value": "child", "label": "Adult child" },
+            { "value": "sibling", "label": "Sibling" },
+            { "value": "parent", "label": "Parent" },
+            { "value": "friend", "label": "Friend" },
+            { "value": "professional", "label": "Professional (solicitor/accountant)" },
+            { "value": "other", "label": "Other" }
+          ] },
+          { "id": "address", "type": "text", "label": "Address", "required": true, "placeholder": "12 Example St, Paddington QLD 4064" },
+          { "id": "phone", "type": "tel", "label": "Phone", "required": true, "placeholder": "04XX XXX XXX" },
+          { "id": "email", "type": "email", "label": "Email", "required": false, "placeholder": "optional" },
+          { "id": "over18", "type": "checkbox", "label": "I confirm this person is 18 or older", "required": true }
+        ] },
+        { "id": "wantBackupExecutor", "type": "radio", "label": "Do you want substitute executor(s), in case your first choice cannot act?", "required": true, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "why": "Executors die, move overseas and fall ill. A substitute keeps the will working without a court application." },
+        { "id": "backupExecutors", "type": "repeater", "label": "Substitute executor(s)", "required": true, "minItems": 1, "maxItems": 2, "addLabel": "Add another substitute", "visibleIf": { "==": [{ "var": "wantBackupExecutor" }, "yes"] }, "why": "They only step in if your first choice can't or won't act.", "fields": [
+          { "id": "name", "type": "text", "label": "Full legal name", "required": true },
+          { "id": "relationship", "type": "select", "label": "Relationship to you", "required": true, "options": [
+            { "value": "spouse", "label": "Spouse / partner" },
+            { "value": "child", "label": "Adult child" },
+            { "value": "sibling", "label": "Sibling" },
+            { "value": "parent", "label": "Parent" },
+            { "value": "friend", "label": "Friend" },
+            { "value": "professional", "label": "Professional (solicitor/accountant)" },
+            { "value": "other", "label": "Other" }
+          ] },
+          { "id": "phone", "type": "tel", "label": "Phone", "required": false }
+        ] },
+        { "id": "executorIsBeneficiary", "type": "radio", "label": "Is any executor also a major beneficiary of your will?", "required": true, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" },
+          { "value": "unsure", "label": "Not sure yet" }
+        ], "help": "This is completely normal — most people appoint their partner or adult child.", "why": "It's allowed and common in Queensland. We ask so your lawyer can make sure the will is worded to avoid any suggestion of conflict." },
+        { "id": "executorIssues", "type": "checkboxes", "label": "Does any executor you've named fit one of these? (tick all that apply)", "required": false, "options": [
+          { "value": "none", "label": "None of these apply" },
+          { "value": "overseas", "label": "Lives overseas" },
+          { "value": "bankrupt", "label": "Is bankrupt or has been recently" },
+          { "value": "under18", "label": "Is under 18" },
+          { "value": "capacity", "label": "Has difficulty managing their own affairs" }
+        ], "why": "An executor under 18 cannot act — we'll stop and ask you to choose someone else. Overseas or bankrupt executors are allowed but create real practical problems, so your lawyer will talk them through with you." },
+        { "id": "professionalExecutor", "type": "radio", "label": "Would you like a professional executor instead, or alongside?", "required": true, "options": [
+          { "value": "no", "label": "No — family or friends only" },
+          { "value": "firm", "label": "Yes — Moreton & Grey as executor" },
+          { "value": "trustee", "label": "Yes — a trustee company" },
+          { "value": "unsure", "label": "Tell me more / not sure" }
+        ], "help": "Professional executors charge fees from the estate, typically a percentage.", "why": "Useful for complex estates or when family conflict is likely. If you're interested, your lawyer will send you a written quote before anything is finalised." },
+        { "id": "spokenToExecutors", "type": "radio", "label": "Have you actually spoken to the people you've named?", "required": true, "options": [
+          { "value": "yes", "label": "Yes, they've agreed" },
+          { "value": "not_yet", "label": "Not yet — I will" },
+          { "value": "no", "label": "No, and I'd rather not" }
+        ], "why": "Nobody is forced to be an executor — they can refuse after you die, which causes delay. A quick conversation now prevents that." }
+      ]
+    },
+    {
+      "id": "divide",
+      "title": "Divide your estate",
+      "description": "Everything left after gifts and debts — who receives it, and what happens if they don't.",
+      "icon": "scale",
+      "minutes": 7,
+      "intro": "Your 'residuary estate' is everything left after debts, funeral costs and any specific gifts are paid out. For most people it's the biggest part of the will — the family home, super, savings.",
+      "questions": [
+        { "id": "assetTypes", "type": "checkboxes", "label": "Which of these do you own?", "required": true, "options": [
+          { "value": "home", "label": "Home or investment property" },
+          { "value": "super", "label": "Superannuation" },
+          { "value": "bank", "label": "Bank accounts / savings" },
+          { "value": "investments", "label": "Shares or managed funds" },
+          { "value": "business", "label": "A business or company" },
+          { "value": "vehicles", "label": "Vehicles, boats or caravans" },
+          { "value": "overseas", "label": "Overseas property or accounts" },
+          { "value": "life", "label": "Life insurance (outside super)" }
+        ], "why": "Some assets — super, jointly-owned homes, trust assets — don't automatically follow your will. This list tells your lawyer where to look." },
+        { "id": "estateValue", "type": "radio", "label": "Roughly, what is everything worth, before debts?", "required": true, "options": [
+          { "value": "under_500k", "label": "Under $500,000" },
+          { "value": "500k_1m", "label": "$500,000 – $1 million" },
+          { "value": "1m_2m", "label": "$1 – $2 million" },
+          { "value": "2m_5m", "label": "$2 – $5 million" },
+          { "value": "over_5m", "label": "Over $5 million" }
+        ], "why": "Scale changes advice: bigger estates trigger senior review and sometimes tax structuring. Estimates are completely fine." },
+        { "id": "superNomination", "type": "radio", "label": "Have you made a binding death benefit nomination with your super fund?", "required": true, "visibleIf": { "in": ["super", { "var": "assetTypes" }] }, "options": [
+          { "value": "yes_estate", "label": "Yes — to my estate" },
+          { "value": "yes_person", "label": "Yes — directly to a person" },
+          { "value": "no", "label": "No" },
+          { "value": "unsure", "label": "Not sure" }
+        ], "why": "A binding nomination can override your will for that money. 'Not sure' is fine — your lawyer will tell you how to check." },
+        { "id": "propertyOwnership", "type": "radio", "label": "If you own property, how is it held?", "required": true, "visibleIf": { "in": ["home", { "var": "assetTypes" }] }, "options": [
+          { "value": "sole", "label": "In my name alone" },
+          { "value": "joint_tenants", "label": "Jointly, as joint tenants" },
+          { "value": "tenants_in_common", "label": "Jointly, as tenants in common" },
+          { "value": "trust_or_company", "label": "In a trust or company" },
+          { "value": "unsure", "label": "Not sure" }
+        ], "help": "Joint tenants: the survivor automatically gets the whole thing. Tenants in common: your share passes under your will.", "why": "This single answer decides whether your home passes under your will at all. If you're unsure, your lawyer can check the title." },
+        { "id": "debtsNote", "type": "textarea", "label": "Any significant debts or mortgages we should know about? (optional)", "required": false, "maxLength": 500, "placeholder": "e.g. mortgage on Ashgrove property, personal loan", "why": "Debts are paid before anyone inherits. Knowing them stops a gift being wiped out unexpectedly." },
+        { "id": "residueStructure", "type": "radio", "label": "How would you like to divide your residuary estate?", "required": true, "options": [
+          { "value": "all_partner", "label": "Everything to my partner" },
+          { "value": "split_children", "label": "Split equally between my children" },
+          { "value": "named", "label": "Split among named people and charities" },
+          { "value": "custom", "label": "Something else (I'll describe it)" }
+        ], "why": "Most wills use one of the first two. The named option lets you set exact percentages with the slider tool." },
+        { "id": "residuePrimary", "type": "text", "label": "Your partner's full name", "required": true, "visibleIf": { "==": [{ "var": "residueStructure" }, "all_partner"] }, "placeholder": "e.g. Jane Mary Citizen", "why": "Named exactly as elsewhere in the will — variations create doubt." },
+        { "id": "residueSecondary", "type": "text", "label": "If they die before you, who then?", "required": true, "visibleIf": { "==": [{ "var": "residueStructure" }, "all_partner"] }, "placeholder": "e.g. my children in equal shares", "why": "A backup stops this part of the will failing if the unthinkable happens twice." },
+        { "id": "residueBeneficiaries", "type": "repeater", "label": "Who receives your residuary estate? (shares must total 100%)", "required": true, "minItems": 1, "maxItems": 12, "addLabel": "Add beneficiary", "mustTotal": 100, "totalField": "share", "visibleIf": { "in": [{ "var": "residueStructure" }, ["named", "custom"]] }, "why": "Shares must total exactly 100% or the will is ambiguous — the slider tool won't let you get it wrong.", "fields": [
+          { "id": "kind", "type": "select", "label": "Person or charity?", "required": true, "options": [
+            { "value": "person", "label": "A person" },
+            { "value": "charity", "label": "A charity" }
+          ] },
+          { "id": "name", "type": "text", "label": "Full name / charity name", "required": true },
+          { "id": "relationship", "type": "text", "label": "Relationship to you", "required": true, "placeholder": "e.g. daughter, or charity" },
+          { "id": "abn", "type": "abn", "label": "Charity ABN (look up)", "required": false, "placeholder": "Search a charity name or ABN" },
+          { "id": "share", "type": "number", "label": "Share (%)", "required": true, "min": 1, "max": 100 }
+        ] },
+        { "id": "residueCustomNote", "type": "textarea", "label": "Describe how you'd like it divided", "required": true, "maxLength": 800, "visibleIf": { "==": [{ "var": "residueStructure" }, "custom"] }, "why": "Your lawyer will draft this properly and confirm the wording with you before approval." },
+        { "id": "backupRule", "type": "radio", "label": "If a beneficiary dies before you, what should happen to their share?", "required": true, "options": [
+          { "value": "children_take", "label": "Their children take their share" },
+          { "value": "redistribute", "label": "Share it among the surviving beneficiaries" },
+          { "value": "custom", "label": "Something else" }
+        ], "help": "'Their children take their share' is the most common choice for family wills.", "why": "Without this rule, a share can fail entirely and fall into intestacy — the law's default, not yours." },
+        { "id": "backupCustomNote", "type": "textarea", "label": "Describe what should happen instead", "required": true, "maxLength": 500, "visibleIf": { "==": [{ "var": "backupRule" }, "custom"] }, "why": "Custom survivorship rules need careful drafting — your lawyer reviews this one closely." },
+        { "id": "ultimateBeneficiary", "type": "text", "label": "If everyone named dies before you, who should inherit?", "required": true, "placeholder": "e.g. my cousins equally, or RSPCA Queensland", "help": "This 'ultimate default' prevents your estate passing under government intestacy rules.", "why": "It almost never happens — but without this line, your estate can end up with the state." },
+        { "id": "vulnerableBeneficiary", "type": "radio", "label": "Is any beneficiary under 18, living with a disability, or receiving government benefits?", "required": true, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" },
+          { "value": "unsure", "label": "Not sure" }
+        ], "why": "A direct inheritance can cut someone off a pension or NDIS support. A protective trust usually fixes this — your lawyer will advise." },
+        { "id": "excludingAnyone", "type": "radio", "label": "Is there anyone who might expect to benefit that you're choosing not to provide for?", "required": true, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "help": "A spouse, child, step-child or dependant. There's no judgement here — people have good reasons.", "why": "In Queensland these people can apply to a court for provision from your estate. Saying so now lets your lawyer protect your wishes properly." },
+        { "id": "excludedNames", "type": "text", "label": "Who are you choosing not to provide for?", "required": true, "visibleIf": { "==": [{ "var": "excludingAnyone" }, "yes"] }, "why": "Names, exact — same reason." },
+        { "id": "exclusionReason", "type": "textarea", "label": "Your reasons (kept confidential with your lawyer)", "required": true, "maxLength": 1000, "visibleIf": { "==": [{ "var": "excludingAnyone" }, "yes"] }, "help": "Be factual rather than emotional — it carries more weight.", "why": "A calm, factual statement recorded now can defeat a claim years later. A lawyer will talk this through with you before anything is finalised." }
+      ]
+    },
+    {
+      "id": "gifts",
+      "title": "Specific gifts",
+      "description": "Particular things or amounts you want to go to particular people.",
+      "icon": "coins",
+      "minutes": 5,
+      "skippable": true,
+      "skipField": "hasSpecificGifts",
+      "intro": "Gifts are handed out before the rest of your estate is divided. Say no and this step skips itself.",
+      "questions": [
+        { "id": "hasSpecificGifts", "type": "radio", "label": "Do you want to leave any specific gifts?", "required": true, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "help": "For example: $5,000 to a grandchild, your wedding ring to a niece, or your car to a friend.", "why": "Specific gifts come out first, so they need exact wording to survive the years between writing and reading." },
+        { "id": "gifts", "type": "repeater", "label": "Your gifts", "required": true, "minItems": 1, "maxItems": 20, "addLabel": "Add another gift", "visibleIf": { "==": [{ "var": "hasSpecificGifts" }, "yes"] }, "itemDefaults": { "type": "cash", "fallback": "residue" }, "why": "Clarity here prevents two people claiming the same ring.", "fields": [
+          { "id": "type", "type": "select", "label": "Type of gift", "required": true, "options": [
+            { "value": "cash", "label": "Cash amount" },
+            { "value": "item", "label": "An item (jewellery, vehicle, art)" },
+            { "value": "property", "label": "Property or land" },
+            { "value": "digital", "label": "Digital asset (incl. cryptocurrency)" }
+          ] },
+          { "id": "description", "type": "text", "label": "What exactly are you giving?", "required": true, "placeholder": "e.g. my grandmother's sapphire ring" },
+          { "id": "recipientName", "type": "text", "label": "Who receives it?", "required": true, "placeholder": "Full name or charity" },
+          { "id": "recipientRelationship", "type": "text", "label": "Their relationship to you", "required": true, "placeholder": "e.g. granddaughter" },
+          { "id": "value", "type": "currency", "label": "Estimated value", "required": false },
+          { "id": "fallback", "type": "select", "label": "If they can't receive it…", "required": true, "options": [
+            { "value": "residue", "label": "It falls into my residuary estate" },
+            { "value": "named", "label": "It goes to a named backup person" }
+          ] },
+          { "id": "fallbackName", "type": "text", "label": "Backup recipient", "required": false, "placeholder": "Only if you chose a named backup" },
+          { "id": "condition", "type": "text", "label": "Any condition? (optional)", "required": false, "placeholder": "e.g. when she turns 21" },
+          { "id": "message", "type": "text", "label": "A short message with this gift (optional)", "required": false, "placeholder": "e.g. 'She always loved this.'" }
+        ] },
+        { "id": "hasDigitalAssets", "type": "radio", "label": "Do you hold significant digital assets generally?", "required": true, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ], "help": "Cryptocurrency, online businesses, monetised channels, or large photo libraries.", "why": "If nobody can find your accounts, they may as well not exist. Your executor needs a direction and a way to access keys." }
+      ]
+    },
+    {
+      "id": "funeral",
+      "title": "Funeral wishes",
+      "description": "How you'd like to be farewelled — plus your final declarations.",
+      "icon": "scroll",
+      "minutes": 5,
+      "intro": "Funerals happen quickly, often before anyone reads the will. Writing this down takes the weight off your family at the worst possible moment.",
+      "questions": [
+        { "id": "funeralWish", "type": "radio", "label": "Burial, cremation, or no preference?", "required": true, "options": [
+          { "value": "burial", "label": "Burial" },
+          { "value": "cremation", "label": "Cremation" },
+          { "value": "no_preference", "label": "No preference — let my family decide" }
+        ], "why": "This is the single question families most often wish had been answered." },
+        { "id": "funeralLocation", "type": "text", "label": "Preferred location (optional)", "required": false, "maxLength": 160, "placeholder": "e.g. Toowong Cemetery family plot, or scattered at Manly", "visibleIf": { "in": [{ "var": "funeralWish" }, ["burial", "cremation"]] }, "why": "Specific places matter to people. Writing it down removes the guesswork." },
+        { "id": "serviceType", "type": "radio", "label": "What kind of service?", "required": true, "options": [
+          { "value": "religious", "label": "Religious service" },
+          { "value": "secular", "label": "Secular / celebrant-led" },
+          { "value": "private", "label": "Small and private" },
+          { "value": "none", "label": "No service at all" },
+          { "value": "family_decide", "label": "Let my family decide" }
+        ], "why": "Families often disagree about this. Your written wish usually settles it." },
+        { "id": "funeralMusic", "type": "text", "label": "Music you'd like (optional)", "required": false, "maxLength": 200, "placeholder": "e.g. 'The Parting Glass'", "why": "A small kindness to the person planning the day." },
+        { "id": "funeralReadings", "type": "text", "label": "Readings, poems or speakers (optional)", "required": false, "maxLength": 200, "why": "Same reason — it gives your family something to hold onto." },
+        { "id": "flowersDonations", "type": "radio", "label": "Flowers or donations?", "required": true, "options": [
+          { "value": "flowers", "label": "Flowers are welcome" },
+          { "value": "donations", "label": "Donations in lieu of flowers" },
+          { "value": "both", "label": "Either is fine" },
+          { "value": "neither", "label": "Neither, please" }
+        ], "why": "Charities receive a great deal through 'in lieu of flowers' requests." },
+        { "id": "donationCharity", "type": "text", "label": "Which charity should donations go to?", "required": true, "maxLength": 140, "visibleIf": { "in": [{ "var": "flowersDonations" }, ["donations", "both"]] }, "placeholder": "e.g. Royal Flying Doctor Service", "why": "Naming it means your family doesn't have to choose for you." },
+        { "id": "organDonation", "type": "radio", "label": "Your organ and tissue donation wishes", "required": true, "options": [
+          { "value": "yes", "label": "Yes — I want to be a donor" },
+          { "value": "no", "label": "No" },
+          { "value": "family_decide", "label": "My family can decide" }
+        ], "help": "Important: a will is usually read days after a donation decision must be made, so this is a record of your wishes — not a legally binding direction.", "why": "Register your decision on the Australian Organ Donor Register as well — and tell your family, because they're asked to confirm it." },
+        { "id": "prepaidFuneral", "type": "radio", "label": "Do you have a prepaid funeral or funeral bond?", "required": true, "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" },
+          { "value": "unsure", "label": "Not sure" }
+        ], "why": "Families routinely pay twice because nobody knew a plan existed." },
+        { "id": "prepaidProvider", "type": "text", "label": "Provider name", "required": true, "maxLength": 120, "visibleIf": { "==": [{ "var": "prepaidFuneral" }, "yes"] }, "placeholder": "e.g. Metropolitan Funerals", "why": "So your executor can find and use it." },
+        { "id": "prepaidPolicy", "type": "text", "label": "Policy or contract number", "required": false, "maxLength": 60, "visibleIf": { "==": [{ "var": "prepaidFuneral" }, "yes"] }, "placeholder": "e.g. MF-2024-88213", "why": "Saves your executor an afternoon on the phone." },
+        { "id": "firstContactName", "type": "text", "label": "Who should be told first?", "required": true, "maxLength": 120, "placeholder": "Full name", "why": "One calm person to make the first calls. It's often not the executor." },
+        { "id": "firstContactPhone", "type": "tel", "label": "Their phone number", "required": true, "placeholder": "04XX XXX XXX", "why": "So whoever finds this document can reach them immediately." },
+        { "id": "personalMessage", "type": "textarea", "label": "A personal message to the people you love (optional)", "required": false, "maxLength": 1200, "placeholder": "Anything you'd like them to read.", "why": "Not legally operative — but for many families, the part of the will they keep." },
+        { "id": "declarationTruth", "type": "consent", "label": "I declare the information provided is true and complete to the best of my knowledge.", "required": true, "why": "Your lawyer relies on what you tell them — the will is only as good as its inputs." },
+        { "id": "declarationCapacity", "type": "consent", "label": "I understand the nature and effect of making a will, and no one is pressuring me to make it.", "required": true, "why": "Capacity and freedom from pressure are what make a will legally valid." },
+        { "id": "declarationAdvice", "type": "consent", "label": "I understand this questionnaire is not legal advice, and a lawyer will review my answers before any will is issued.", "required": true, "why": "This is how the service keeps its promise: software collects, a human solicitor checks." }
+      ]
+    }
+  ]
+}

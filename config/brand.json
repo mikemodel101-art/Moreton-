@@ -1,0 +1,96 @@
+{
+  "firmName": "Moreton & Grey",
+  "productName": "Moreton Wills Online",
+  "tagline": "Queensland wills, made properly simple.",
+  "jurisdiction": "Queensland, Australia",
+  "legalNote": "This prototype uses dummy data only. It is not legal advice and does not create a solicitor–client relationship.",
+  "abn": "ABN 00 123 456 789 (dummy)",
+  "phone": "(07) 3000 0000",
+  "email": "hello@moretongrey.example",
+  "address": "Level 12, 240 Queen Street, Brisbane QLD 4000",
+  "logoMark": "fig",
+  "logo": {
+    "light": "Fig-leaf mark + 'Moreton & Grey' wordmark in Paper (#FBF8F1) on dark surfaces",
+    "dark": "Fig-leaf mark + 'Moreton & Grey' wordmark in Primary navy on light surfaces"
+  },
+  "tokens": {
+    "primary": "#1F3352",
+    "primaryHover": "#2A4468",
+    "secondary": "#7FA08A",
+    "accent": "#C29B3C",
+    "success": "#2E6E55",
+    "warning": "#B08D2E",
+    "danger": "#A63A3A",
+    "surface": "#FCFAF5",
+    "background": "#F5F1E8",
+    "neutral": {
+      "50": "#FAFAF8",
+      "100": "#F1F0EB",
+      "200": "#E3E2DA",
+      "300": "#CBCBC0",
+      "400": "#A3A398",
+      "500": "#7B7C72",
+      "600": "#575952",
+      "700": "#3E413B",
+      "800": "#272A26",
+      "900": "#141C26"
+    },
+    "fonts": {
+      "heading": "Fraunces",
+      "body": "Public Sans",
+      "baseSizeMobile": "18px"
+    },
+    "radius": { "sm": "8px", "md": "12px", "lg": "16px", "xl": "24px", "full": "999px" },
+    "shadow": {
+      "sm": "0 1px 2px rgba(20,28,38,.06)",
+      "md": "0 1px 2px rgba(20,28,38,.06), 0 8px 28px -12px rgba(20,28,38,.18)",
+      "lg": "0 2px 4px rgba(20,28,38,.07), 0 24px 60px -20px rgba(20,28,38,.28)"
+    },
+    "spacing": { "xs": "4px", "sm": "8px", "md": "16px", "lg": "24px", "xl": "40px", "2xl": "64px" }
+  },
+  "toneOfVoice": {
+    "summary": "Plain English, empathetic, never jargon-first. Gentle and respectful about death — no cheerful gimmicks.",
+    "rules": [
+      "Say 'your will' not 'testamentary instrument' unless the legal term is explained inline.",
+      "Every legal term gets a 'What does this mean?' tooltip.",
+      "Use 'when you die' gently; avoid humour, exclamation marks, and confetti.",
+      "Sentences under 20 words where possible. Active voice.",
+      "Reassure, don't alarm: flags are 'a lawyer will look at this', never 'problem detected'."
+    ],
+    "tooltipExamples": {
+      "executor": "The person you choose to carry out the instructions in your will — a bit like the project manager of your estate.",
+      "guardian": "The person who would look after your children day-to-day if both parents died.",
+      "residue": "Everything left over after debts, expenses and any specific gifts have been paid out.",
+      "probate": "The Supreme Court's official approval that lets your executor access accounts and property.",
+      "intestacy": "What happens if someone dies without a valid will — the law decides who inherits."
+    }
+  },
+  "colors": {
+    "ink": "#141C26",
+    "eucalyptus": "#1F3352",
+    "moss": "#2A4468",
+    "fern": "#5E6E7E",
+    "sand": "#F5F1E8",
+    "paper": "#FCFAF5",
+    "gold": "#C29B3C",
+    "clay": "#B4552D",
+    "sky": "#8FAF9B",
+    "danger": "#A63A3A"
+  },
+  "fonts": {
+    "display": "Fraunces",
+    "body": "Public Sans"
+  },
+  "images": {
+    "hero": "https://images.pexels.com/photos/19708231/pexels-photo-19708231.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=900&w=1600",
+    "forest": "https://images.pexels.com/photos/33398375/pexels-photo-33398375.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+    "family": "https://images.pexels.com/photos/6149192/pexels-photo-6149192.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+    "familyIndoors": "https://images.pexels.com/photos/8317705/pexels-photo-8317705.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+    "signing": "https://images.pexels.com/photos/8815837/pexels-photo-8815837.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200"
+  },
+  "trust": {
+    "lawSociety": "Queensland Law Society member firm (dummy)",
+    "years": "27 years serving Queensland families",
+    "willsCount": "11,400+ wills prepared (dummy figure)"
+  }
+}

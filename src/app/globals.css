@@ -1,0 +1,223 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand tokens — values overridden at runtime from config/brand.json (one-file brand swap) */
+  --color-ink: #141C26;
+  --color-eucalyptus: #1F3352;
+  --color-moss: #2A4468;
+  --color-fern: #5E6E7E;
+  --color-sand: #F5F1E8;
+  --color-paper: #FCFAF5;
+  --color-gold: #C29B3C;
+  --color-clay: #B4552D;
+  --color-sky: #8FAF9B;
+  --color-danger: #A63A3A;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --shadow-card: 0 1px 2px rgba(20, 28, 38, 0.06), 0 8px 28px -12px rgba(20, 28, 38, 0.18);
+  --shadow-card-lg: 0 2px 4px rgba(20, 28, 38, 0.07), 0 24px 60px -20px rgba(20, 28, 38, 0.28);
+
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-public-sans), "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-sand);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 18px base body text on mobile for readability (brand guide) */
+@media (max-width: 640px) {
+  body {
+    font-size: 18px;
+  }
+  .text-sm { font-size: 16px; }
+  .text-xs { font-size: 13.5px; }
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+:where(a, button, input, select, textarea, [tabindex], summary):focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.paper-grain {
+  background-image: radial-gradient(rgba(20, 28, 38, 0.05) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.card-shadow { box-shadow: var(--shadow-card); }
+.card-shadow-lg { box-shadow: var(--shadow-card-lg); }
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 100;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: 0.6rem 1rem;
+  border-radius: 0 0 8px 0;
+}
+.skip-link:focus { left: 0; }
+
+.nice-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.nice-scroll::-webkit-scrollbar-thumb { background: rgba(20, 28, 38, 0.18); border-radius: 8px; }
+
+/* ------------------------------ Motion primitives ------------------------------ */
+
+/* Skeleton shimmer (loading states) */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(20, 28, 38, 0.08);
+  border-radius: var(--radius-md, 12px);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(252, 250, 245, 0.75), transparent);
+  animation: shimmer 1.6s ease-out infinite;
+}
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* Gentle pulse that plays exactly once (flag callouts) */
+.pulse-once {
+  animation: pulse-once 1.2s ease-out 0.2s 2 both;
+}
+@keyframes pulse-once {
+  0% { box-shadow: 0 0 0 0 rgba(194, 155, 60, 0.45); }
+  70% { box-shadow: 0 0 0 8px rgba(194, 155, 60, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(194, 155, 60, 0); }
+}
+
+/* Range sliders (percentage allocator) */
+input[type="range"].range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-eucalyptus) 0%, var(--color-eucalyptus) var(--fill, 50%), rgba(20, 28, 38, 0.12) var(--fill, 50%));
+  outline-offset: 4px;
+}
+input[type="range"].range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  background: var(--color-paper);
+  border: 3px solid var(--color-eucalyptus);
+  box-shadow: 0 1px 3px rgba(20, 28, 38, 0.25);
+  cursor: grab;
+}
+input[type="range"].range::-moz-range-thumb {
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  background: var(--color-paper);
+  border: 3px solid var(--color-eucalyptus);
+  cursor: grab;
+}
+
+/* Rich text editor */
+.rich-editor:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(20, 28, 38, 0.35);
+  pointer-events: none;
+}
+.rich-editor b, .rich-editor strong { font-weight: 700; }
+.rich-editor i, .rich-editor em { font-style: italic; }
+
+/* ------------------------------ Accessibility modes ------------------------------ */
+
+/* Dark mode — derived from brand tokens, not a separate palette */
+html.dark {
+  --color-sand: #11161C;
+  --color-paper: #19202A;
+  --color-ink: #ECE8DF;
+  --color-fern: #9FB3A6;
+  --color-eucalyptus: #7FA6C9;
+  --color-moss: #9BBBD8;
+  --color-gold: #D8B155;
+  --color-sky: #8FAF9B;
+  color-scheme: dark;
+}
+html.dark body { background: var(--color-sand); color: var(--color-ink); }
+html.dark .card-shadow,
+html.dark .card-shadow-lg { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -12px rgba(0, 0, 0, 0.6); }
+html.dark .paper-grain { background-image: radial-gradient(rgba(236, 232, 223, 0.06) 1px, transparent 1px); }
+html.dark input,
+html.dark textarea,
+html.dark select { background: #121820; color: var(--color-ink); }
+html.dark .skeleton { background: rgba(236, 232, 223, 0.09); }
+
+/* High contrast */
+html.a11y-contrast {
+  --color-ink: #000000;
+  --color-paper: #FFFFFF;
+  --color-sand: #FFFFFF;
+  --color-eucalyptus: #0B2545;
+  --color-moss: #0B2545;
+  --color-fern: #333333;
+  --color-gold: #8A6200;
+}
+html.a11y-contrast.dark {
+  --color-ink: #FFFFFF;
+  --color-paper: #000000;
+  --color-sand: #000000;
+  --color-eucalyptus: #8FC2FF;
+  --color-gold: #FFD24A;
+}
+html.a11y-contrast * { border-color: currentColor !important; }
+html.a11y-contrast .card-shadow,
+html.a11y-contrast .card-shadow-lg { box-shadow: none !important; outline: 2px solid currentColor; outline-offset: -2px; }
+html.a11y-contrast a,
+html.a11y-contrast button { text-decoration-thickness: 2px; }
+
+/* Dyslexia-friendly: wider spacing, heavier weight, no italics */
+html.a11y-dyslexia body {
+  font-family: "Verdana", "Tahoma", "Trebuchet MS", sans-serif;
+  letter-spacing: 0.04em;
+  word-spacing: 0.14em;
+  line-height: 1.85;
+}
+html.a11y-dyslexia .font-display { font-family: "Verdana", "Tahoma", sans-serif !important; }
+html.a11y-dyslexia em,
+html.a11y-dyslexia i { font-style: normal; font-weight: 700; }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; font-size: 11pt; }
+  .print-break { page-break-before: always; }
+  a[href]::after { content: ""; }
+}

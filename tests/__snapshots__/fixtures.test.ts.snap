@@ -1,0 +1,201 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`clause assembly — 10 scenario fixtures > 01-single-no-kids produces a stable clause list 1`] = `
+[
+  "title/DECL_TITLE:with_occupationx1",
+  "title/DECL_REVOKE_ALL:standardx1",
+  "definitions/DEF_INTERPRETATION:standardx1",
+  "executors/EXEC_APPOINT_PRIMARY:solex1",
+  "residue/RES_PARTNER:standardx1",
+  "residue/RES_ULTIMATE:standardx1",
+  "giftover/GO_CHILDREN_TAKE:standardx1",
+  "powers/POW_TRUSTEE:standardx1",
+  "powers/POW_DEBTS:standardx1",
+  "funeral/FUN_CREMATION:standardx1",
+  "funeral/FUN_CONTACT:standardx1",
+  "testimonium/TEST_TESTIMONIUM:standardx1",
+  "attestation/ATT_EXECUTION:standardx1",
+]
+`;
+
+exports[`clause assembly — 10 scenario fixtures > 02-couple-minor-children produces a stable clause list 1`] = `
+[
+  "title/DECL_TITLE:with_occupationx1",
+  "title/DECL_REVOKE_ALL:standardx1",
+  "definitions/DEF_INTERPRETATION:standardx1",
+  "executors/EXEC_APPOINT_PRIMARY:solex1",
+  "guardians/GUARD_APPOINT:standardx1",
+  "residue/RES_PARTNER:standardx1",
+  "residue/RES_ULTIMATE:standardx1",
+  "giftover/GO_CHILDREN_TAKE:standardx1",
+  "trusts/TRUST_MINORS:standardx1",
+  "powers/POW_TRUSTEE:standardx1",
+  "powers/POW_DEBTS:standardx1",
+  "funeral/FUN_CREMATION:standardx1",
+  "funeral/FUN_CONTACT:standardx1",
+  "testimonium/TEST_TESTIMONIUM:standardx1",
+  "attestation/ATT_EXECUTION:standardx1",
+]
+`;
+
+exports[`clause assembly — 10 scenario fixtures > 03-blended-family produces a stable clause list 1`] = `
+[
+  "title/DECL_TITLE:with_occupationx1",
+  "title/DECL_REVOKE_ALL:standardx1",
+  "definitions/DEF_INTERPRETATION:standardx1",
+  "executors/EXEC_APPOINT_PRIMARY:solex1",
+  "guardians/GUARD_APPOINT:standardx1",
+  "residue/RES_PARTNER:standardx1",
+  "residue/RES_ULTIMATE:standardx1",
+  "giftover/GO_CHILDREN_TAKE:standardx1",
+  "trusts/TRUST_MINORS:standardx1",
+  "trusts/TRUST_DEFERRED_AGE:single_agex1",
+  "powers/POW_TRUSTEE:standardx1",
+  "powers/POW_DEBTS:standardx1",
+  "funeral/FUN_CREMATION:standardx1",
+  "funeral/FUN_CONTACT:standardx1",
+  "testimonium/TEST_TESTIMONIUM:standardx1",
+  "attestation/ATT_EXECUTION:standardx1",
+]
+`;
+
+exports[`clause assembly — 10 scenario fixtures > 04-charity-gift produces a stable clause list 1`] = `
+[
+  "title/DECL_TITLE:with_occupationx1",
+  "title/DECL_REVOKE_ALL:standardx1",
+  "definitions/DEF_INTERPRETATION:standardx1",
+  "executors/EXEC_APPOINT_PRIMARY:solex1",
+  "specific_gifts/GIFT_SPECIFIC:standardx1",
+  "specific_gifts/GIFT_SURVIVAL:standardx1",
+  "residue/RES_NAMED:standardx1",
+  "residue/RES_ULTIMATE:standardx1",
+  "giftover/GO_CHILDREN_TAKE:standardx1",
+  "powers/POW_TRUSTEE:standardx1",
+  "powers/POW_DEBTS:standardx1",
+  "funeral/FUN_CREMATION:standardx1",
+  "funeral/FUN_CONTACT:standardx1",
+  "testimonium/TEST_TESTIMONIUM:standardx1",
+  "attestation/ATT_EXECUTION:standardx1",
+]
+`;
+
+exports[`clause assembly — 10 scenario fixtures > 05-pet-trust produces a stable clause list 1`] = `
+[
+  "title/DECL_TITLE:with_occupationx1",
+  "title/DECL_REVOKE_ALL:standardx1",
+  "definitions/DEF_INTERPRETATION:standardx1",
+  "executors/EXEC_APPOINT_PRIMARY:solex1",
+  "pets/PET_CARE:standardx1",
+  "pets/PET_FUND:standardx1",
+  "residue/RES_PARTNER:standardx1",
+  "residue/RES_ULTIMATE:standardx1",
+  "giftover/GO_CHILDREN_TAKE:standardx1",
+  "powers/POW_TRUSTEE:standardx1",
+  "powers/POW_DEBTS:standardx1",
+  "funeral/FUN_CREMATION:standardx1",
+  "funeral/FUN_CONTACT:standardx1",
+  "testimonium/TEST_TESTIMONIUM:standardx1",
+  "attestation/ATT_EXECUTION:standardx1",
+]
+`;
+
+exports[`clause assembly — 10 scenario fixtures > 06-multiple-executors-survivor produces a stable clause list 1`] = `
+[
+  "title/DECL_TITLE:with_occupationx1",
+  "title/DECL_REVOKE_ALL:standardx1",
+  "definitions/DEF_INTERPRETATION:standardx1",
+  "executors/EXEC_APPOINT_PRIMARY:survivorx1",
+  "executors/EXEC_SUBSTITUTE:standardx1",
+  "residue/RES_PARTNER:standardx1",
+  "residue/RES_ULTIMATE:standardx1",
+  "giftover/GO_CHILDREN_TAKE:standardx1",
+  "powers/POW_TRUSTEE:standardx1",
+  "powers/POW_DEBTS:standardx1",
+  "funeral/FUN_CREMATION:standardx1",
+  "funeral/FUN_CONTACT:standardx1",
+  "testimonium/TEST_TESTIMONIUM:standardx1",
+  "attestation/ATT_EXECUTION:standardx1",
+]
+`;
+
+exports[`clause assembly — 10 scenario fixtures > 07-disinherited-child produces a stable clause list 1`] = `
+[
+  "title/DECL_TITLE:with_occupationx1",
+  "title/DECL_REVOKE_ALL:standardx1",
+  "definitions/DEF_INTERPRETATION:standardx1",
+  "executors/EXEC_APPOINT_PRIMARY:solex1",
+  "residue/RES_PARTNER:standardx1",
+  "residue/RES_ULTIMATE:standardx1",
+  "giftover/GO_CHILDREN_TAKE:standardx1",
+  "statements/STMT_EXCLUSION:standardx1",
+  "powers/POW_TRUSTEE:standardx1",
+  "powers/POW_DEBTS:standardx1",
+  "funeral/FUN_CREMATION:standardx1",
+  "funeral/FUN_CONTACT:standardx1",
+  "testimonium/TEST_TESTIMONIUM:standardx1",
+  "attestation/ATT_EXECUTION:standardx1",
+]
+`;
+
+exports[`clause assembly — 10 scenario fixtures > 08-vulnerable-beneficiary-trust produces a stable clause list 1`] = `
+[
+  "title/DECL_TITLE:with_occupationx1",
+  "title/DECL_REVOKE_ALL:standardx1",
+  "definitions/DEF_INTERPRETATION:standardx1",
+  "executors/EXEC_APPOINT_PRIMARY:solex1",
+  "residue/RES_CHILDREN:per_stirpesx1",
+  "residue/RES_ULTIMATE:standardx1",
+  "giftover/GO_CHILDREN_TAKE:standardx1",
+  "trusts/TRUST_PROTECTIVE:standardx1",
+  "powers/POW_TRUSTEE:standardx1",
+  "powers/POW_DEBTS:standardx1",
+  "funeral/FUN_CREMATION:standardx1",
+  "funeral/FUN_CONTACT:standardx1",
+  "testimonium/TEST_TESTIMONIUM:standardx1",
+  "attestation/ATT_EXECUTION:standardx1",
+]
+`;
+
+exports[`clause assembly — 10 scenario fixtures > 09-property-and-crypto-gifts produces a stable clause list 1`] = `
+[
+  "title/DECL_TITLE:with_occupationx1",
+  "title/DECL_REVOKE_ALL:standardx1",
+  "definitions/DEF_INTERPRETATION:standardx1",
+  "executors/EXEC_APPOINT_PRIMARY:solex1",
+  "specific_gifts/GIFT_SPECIFIC:standardx2",
+  "specific_gifts/GIFT_SURVIVAL:standardx1",
+  "residue/RES_PARTNER:standardx1",
+  "residue/RES_ULTIMATE:standardx1",
+  "giftover/GO_CHILDREN_TAKE:standardx1",
+  "powers/POW_DIGITAL:standardx1",
+  "powers/POW_TRUSTEE:standardx1",
+  "powers/POW_DEBTS:standardx1",
+  "funeral/FUN_CREMATION:standardx1",
+  "funeral/FUN_CONTACT:standardx1",
+  "testimonium/TEST_TESTIMONIUM:standardx1",
+  "attestation/ATT_EXECUTION:standardx1",
+]
+`;
+
+exports[`clause assembly — 10 scenario fixtures > 10-full-funeral-wishes produces a stable clause list 1`] = `
+[
+  "title/DECL_TITLE:with_occupationx1",
+  "title/DECL_REVOKE_ALL:standardx1",
+  "definitions/DEF_INTERPRETATION:standardx1",
+  "executors/EXEC_APPOINT_PRIMARY:solex1",
+  "residue/RES_PARTNER:standardx1",
+  "residue/RES_ULTIMATE:standardx1",
+  "giftover/GO_CHILDREN_TAKE:standardx1",
+  "powers/POW_TRUSTEE:standardx1",
+  "powers/POW_DEBTS:standardx1",
+  "funeral/FUN_BURIAL:standardx1",
+  "funeral/FUN_SERVICE:standardx1",
+  "funeral/FUN_DONATIONS:standardx1",
+  "funeral/FUN_PREPAID:standardx1",
+  "funeral/FUN_ORGAN:standardx1",
+  "funeral/FUN_CONTACT:standardx1",
+  "funeral/FUN_MESSAGE:standardx1",
+  "testimonium/TEST_TESTIMONIUM:standardx1",
+  "attestation/ATT_EXECUTION:standardx1",
+]
+`;

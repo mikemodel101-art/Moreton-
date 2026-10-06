@@ -1,0 +1,118 @@
+{
+  "currency": "AUD",
+  "gstRate": 0.1,
+  "taxInvoice": {
+    "entity": "Moreton & Grey Pty Ltd (prototype)",
+    "abn": "00 123 456 789",
+    "address": "Level 12, 240 Queen Street, Brisbane QLD 4000",
+    "note": "All prices are GST-inclusive in Australian dollars. Dummy ABN for prototype purposes."
+  },
+  "plans": [
+    {
+      "id": "essential",
+      "name": "Single Will — Essential",
+      "kind": "single",
+      "price": 199,
+      "blurb": "A straightforward will for simple estates.",
+      "features": [
+        "Guided online questionnaire",
+        "Lawyer review before issue",
+        "Standard executor & beneficiary clauses",
+        "Digital copy (PDF + DOCX)",
+        "Free updates for 12 months"
+      ],
+      "recommendedFor": "Singles with uncomplicated estates",
+      "popular": false
+    },
+    {
+      "id": "standard",
+      "name": "Single Will — Standard",
+      "kind": "single",
+      "price": 349,
+      "blurb": "Our most chosen plan — covers guardians, gifts and trusts for minors.",
+      "features": [
+        "Everything in Essential",
+        "Guardian nominations for children",
+        "Specific gifts & charitable bequests",
+        "Minor's trust provisions",
+        "Pet care directions",
+        "Priority lawyer review (2 business days)"
+      ],
+      "recommendedFor": "Couples and young families",
+      "popular": true
+    },
+    {
+      "id": "mirror",
+      "name": "Mirror Wills (couple)",
+      "kind": "couple",
+      "price": 549,
+      "blurb": "Two matching wills for partners — the most common family arrangement.",
+      "features": [
+        "Two wills, reviewed together by one lawyer",
+        "Consistent executors, guardians and residue",
+        "Guardian nominations for children",
+        "Minor's trust provisions",
+        "Both partners get digital copies",
+        "Priority lawyer review (2 business days)"
+      ],
+      "recommendedFor": "Married and de facto couples",
+      "popular": false
+    },
+    {
+      "id": "premium",
+      "name": "Premium Will",
+      "kind": "single",
+      "price": 749,
+      "blurb": "For blended families, businesses and larger estates.",
+      "features": [
+        "Everything in Standard",
+        "Blended family provisions",
+        "Business & trust succession directions",
+        "Digital asset memorandum",
+        "30-minute video call with a lawyer",
+        "Senior lawyer sign-off included"
+      ],
+      "recommendedFor": "Complex families and business owners",
+      "popular": false
+    }
+  ],
+  "addOns": [
+    {
+      "id": "addon_trust_review",
+      "name": "Testamentary trust review",
+      "price": 250,
+      "blurb": "A senior lawyer designs and reviews trust provisions for your beneficiaries.",
+      "recommendedWhen": "TRUST_TESTAMENTARY"
+    },
+    {
+      "id": "addon_storage",
+      "name": "Secure will storage (5 years)",
+      "price": 95,
+      "blurb": "We hold your signed original in the firm's fireproof deed room.",
+      "recommendedWhen": null
+    },
+    {
+      "id": "addon_annual_review",
+      "name": "Annual review service",
+      "price": 120,
+      "blurb": "A yearly check-in and free minor amendments for 3 years.",
+      "recommendedWhen": null
+    }
+  ],
+  "promoCodes": [
+    { "code": "WELCOME10", "kind": "percent", "value": 10, "active": true, "referrer": null, "note": "New client welcome offer", "uses": 14, "maxUses": 500, "expiresAt": null, "appliesTo": null },
+    { "code": "PARTNER50", "kind": "fixed", "value": 50, "active": true, "referrer": "MyCommunity Credit Union", "note": "$50 off — member referral partner", "uses": 31, "maxUses": 200, "expiresAt": null, "appliesTo": null },
+    { "code": "FIRMFRIEND", "kind": "percent", "value": 100, "active": true, "referrer": null, "note": "Internal staff testing — 100% off, skips Stripe", "uses": 52, "maxUses": null, "expiresAt": null, "appliesTo": null },
+    { "code": "EXPIRED1", "kind": "percent", "value": 50, "active": false, "referrer": null, "note": "Retired EOFY campaign", "uses": 120, "maxUses": 120, "expiresAt": "2025-06-30", "appliesTo": null },
+    { "code": "MAXEDOUT", "kind": "percent", "value": 25, "active": true, "referrer": "Rotary Club of Toowong", "note": "Usage limit reached — demonstrates the maxed-out error", "uses": 25, "maxUses": 25, "expiresAt": null, "appliesTo": null },
+    { "code": "MIRROR75", "kind": "fixed", "value": 75, "active": true, "referrer": null, "note": "Mirror wills only — demonstrates product restriction", "uses": 3, "maxUses": 100, "expiresAt": null, "appliesTo": ["mirror"] },
+    { "code": "QLDFAMILY25", "kind": "percent", "value": 25, "active": true, "referrer": "MyCommunity Credit Union", "note": "Legacy partner code", "uses": 31, "maxUses": null, "expiresAt": null, "appliesTo": null },
+    { "code": "WELCOME20", "kind": "percent", "value": 20, "active": true, "referrer": null, "note": "Legacy welcome code", "uses": 18, "maxUses": null, "expiresAt": null, "appliesTo": null },
+    { "code": "STAFF100", "kind": "percent", "value": 100, "active": true, "referrer": null, "note": "Legacy staff code", "uses": 52, "maxUses": null, "expiresAt": null, "appliesTo": null }
+  ],
+  "referral": {
+    "discountForNewClient": 25,
+    "creditForReferrer": 50,
+    "note": "Referral credit is tracked against the referrer's account and applied to their next matter."
+  }
+}

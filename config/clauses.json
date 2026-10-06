@@ -1,0 +1,1268 @@
+{
+  "version": 7,
+  "jurisdiction": "Queensland",
+  "actReference": "Succession Act 1981 (Qld)",
+  "draftNotice": "All clause wording in this prototype is placeholder text. Every clause is marked DRAFT until the firm’s supervising principal approves it.",
+  "categories": [
+    {
+      "id": "title",
+      "title": "Title and Declaration",
+      "order": 1
+    },
+    {
+      "id": "definitions",
+      "title": "Definitions and Interpretation",
+      "order": 2
+    },
+    {
+      "id": "executors",
+      "title": "Appointment of Executors and Trustees",
+      "order": 3
+    },
+    {
+      "id": "guardians",
+      "title": "Guardians",
+      "order": 4
+    },
+    {
+      "id": "specific_gifts",
+      "title": "Specific Gifts",
+      "order": 5
+    },
+    {
+      "id": "pets",
+      "title": "Pet Provisions",
+      "order": 6
+    },
+    {
+      "id": "residue",
+      "title": "Residuary Estate and Shares",
+      "order": 7
+    },
+    {
+      "id": "giftover",
+      "title": "Gift-Over and Substitutional Provisions",
+      "order": 8
+    },
+    {
+      "id": "trusts",
+      "title": "Trusts for Minors and Vulnerable Beneficiaries",
+      "order": 9
+    },
+    {
+      "id": "statements",
+      "title": "Statements of Intention",
+      "order": 10
+    },
+    {
+      "id": "powers",
+      "title": "Executor and Trustee Powers",
+      "order": 11
+    },
+    {
+      "id": "funeral",
+      "title": "Funeral and Personal Wishes",
+      "order": 12
+    },
+    {
+      "id": "testimonium",
+      "title": "Testimonium",
+      "order": 13
+    },
+    {
+      "id": "attestation",
+      "title": "Attestation",
+      "order": 14
+    }
+  ],
+  "clauses": [
+    {
+      "id": "DECL_TITLE",
+      "legacyId": "declaration",
+      "title": "Declaration",
+      "section": "title",
+      "order": 101,
+      "include": null,
+      "optional": false,
+      "variants": [
+        {
+          "id": "with_occupation",
+          "when": {
+            "truthy": [
+              {
+                "var": "answers.occupation"
+              }
+            ]
+          },
+          "text": "THIS IS THE LAST WILL AND TESTAMENT of me, {{fullName}}, of {{addressLine}}, {{occupation}}."
+        },
+        {
+          "id": "no_occupation",
+          "when": null,
+          "text": "THIS IS THE LAST WILL AND TESTAMENT of me, {{fullName}}, of {{addressLine}}."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "DECL_REVOKE_ALL",
+      "legacyId": "revocation",
+      "title": "Revocation of prior wills",
+      "section": "title",
+      "order": 102,
+      "include": {
+        "!=": [
+          {
+            "var": "answers.revokeExistingWill"
+          },
+          "no"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I REVOKE all former wills and testamentary dispositions previously made by me and DECLARE this to be my last will."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "DECL_REVOKE_LIMITED",
+      "legacyId": "revocation_limited",
+      "title": "Limited revocation (overseas will retained)",
+      "section": "title",
+      "order": 103,
+      "include": {
+        "==": [
+          {
+            "var": "answers.revokeExistingWill"
+          },
+          "no"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I REVOKE all former wills dealing with my property situated in Australia, but I DO NOT revoke any will dealing with property situated outside Australia."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "DEF_INTERPRETATION",
+      "legacyId": null,
+      "title": "Definitions and interpretation",
+      "section": "definitions",
+      "order": 201,
+      "include": null,
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IN THIS WILL: \"my estate\" means all property I own or am entitled to at my death; \"my trustee\" means my executor or executors for the time being acting; \"my children\" includes any child adopted by me; words importing the singular include the plural; and headings are for convenience only and do not affect interpretation."
+        }
+      ],
+      "lawyerNotes": "Standard interpretation clause. Expand if the will uses defined groups such as \"my grandchildren\".",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "EXEC_APPOINT_PRIMARY",
+      "legacyId": "executor_primary",
+      "title": "Appointment of executor(s)",
+      "section": "executors",
+      "order": 304,
+      "include": null,
+      "repeat": null,
+      "optional": false,
+      "variants": [
+        {
+          "id": "sole",
+          "when": {
+            "==": [
+              {
+                "var": "derived.executorCount"
+              },
+              1
+            ]
+          },
+          "text": "I APPOINT {{executorList}} to be the executor and trustee of this my Will."
+        },
+        {
+          "id": "joint",
+          "when": {
+            "and": [
+              {
+                ">": [
+                  {
+                    "var": "derived.executorCount"
+                  },
+                  1
+                ]
+              },
+              {
+                "!=": [
+                  {
+                    "var": "answers.executorMode"
+                  },
+                  "survivor"
+                ]
+              }
+            ]
+          },
+          "text": "I APPOINT {{executorList}} jointly to be the executors and trustees of this my Will."
+        },
+        {
+          "id": "survivor",
+          "when": {
+            "==": [
+              {
+                "var": "answers.executorMode"
+              },
+              "survivor"
+            ]
+          },
+          "text": "I APPOINT {{executorList}} to be the executors and trustees of this my Will, and if any of them dies or is unable or unwilling to act, the survivors or survivor of them may act."
+        }
+      ],
+      "lawyerNotes": "Confirm joint vs survivor capacity with client. Check all executors are 18+, willing, and not bankrupt.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "EXEC_MODE",
+      "legacyId": "executors_jointly",
+      "title": "Executors to act jointly",
+      "section": "executors",
+      "order": 305,
+      "include": {
+        "==": [
+          1,
+          2
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "WHERE more than one executor is appointed, they shall act jointly, and any decision requiring their agreement may be made by a majority of those able and willing to act."
+        }
+      ],
+      "lawyerNotes": "Superseded by EXEC_APPOINT_PRIMARY variants. Retained in the bank for version history.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "EXEC_SUBSTITUTE",
+      "legacyId": "executor_backup",
+      "title": "Substitute executor",
+      "section": "executors",
+      "order": 306,
+      "include": {
+        "==": [
+          {
+            "var": "answers.wantBackupExecutor"
+          },
+          "yes"
+        ]
+      },
+      "repeat": "backupExecutors",
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IF any executor appointed above is unable or unwilling to act, or survives me by less than thirty (30) days, I APPOINT {{name}} ({{relationship}}) as substitute executor and trustee in their place."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "EXEC_PROF_CHARGING",
+      "legacyId": "professional_executor",
+      "title": "Professional executor charging clause",
+      "section": "executors",
+      "order": 307,
+      "include": {
+        "in": [
+          {
+            "var": "answers.professionalExecutor"
+          },
+          [
+            "firm",
+            "trustee"
+          ]
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "ANY executor or trustee who is a solicitor, accountant, trustee company or other person engaged in a profession or business may charge and be paid their usual professional fees for work done in administering my estate, including work that an executor not in business could have done personally."
+        }
+      ],
+      "lawyerNotes": "Charging clause required whenever a professional acts. Disclose fee basis in writing first.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "GUARD_APPOINT",
+      "legacyId": "guardian_appointment",
+      "title": "Guardian for minor children",
+      "section": "guardians",
+      "order": 408,
+      "include": {
+        "and": [
+          {
+            "==": [
+              {
+                "var": "answers.appointGuardian"
+              },
+              "yes"
+            ]
+          },
+          {
+            "==": [
+              {
+                "var": "derived.hasMinorChildren"
+              },
+              true
+            ]
+          }
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IF any child of mine is under the age of eighteen (18) years at my death, I APPOINT {{guardianName}} ({{guardianRelationship}}) of {{guardianAddress}} as testamentary guardian of that child, to act jointly with any surviving parent who has parental responsibility."
+        }
+      ],
+      "lawyerNotes": "A testamentary guardian cannot displace a surviving parent with parental responsibility.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "GUARD_SUBSTITUTE",
+      "legacyId": "guardian_backup",
+      "title": "Substitute guardian",
+      "section": "guardians",
+      "order": 409,
+      "include": {
+        "truthy": [
+          {
+            "var": "answers.backupGuardianName"
+          }
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IF {{guardianName}} is unable or unwilling to act as guardian, I APPOINT {{backupGuardianName}} as substitute testamentary guardian."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "GUARD_WISHES",
+      "legacyId": "upbringing_wishes",
+      "title": "Wishes as to upbringing",
+      "section": "guardians",
+      "order": 410,
+      "include": {
+        "truthy": [
+          {
+            "var": "answers.upbringingWishes"
+          }
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I EXPRESS the following non-binding wishes to my children's guardian concerning their upbringing: {{upbringingWishes}}"
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "GIFT_SPECIFIC",
+      "legacyId": "specific_gifts",
+      "title": "Specific gifts",
+      "section": "specific_gifts",
+      "order": 511,
+      "include": {
+        "==": [
+          {
+            "var": "answers.hasSpecificGifts"
+          },
+          "yes"
+        ]
+      },
+      "repeat": "gifts",
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I GIVE {{description}} to {{recipientName}} ({{recipientRelationship}}) absolutely{{giftConditionText}}{{giftFallbackText}}."
+        }
+      ],
+      "lawyerNotes": "Check ademption risk for items; confirm whether gift carries any debt.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "GIFT_SURVIVAL",
+      "legacyId": "gift_survival",
+      "title": "Gift survival provision",
+      "section": "specific_gifts",
+      "order": 512,
+      "include": {
+        "==": [
+          {
+            "var": "answers.hasSpecificGifts"
+          },
+          "yes"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IF any beneficiary of a specific gift does not survive me by thirty (30) days, and no substitute recipient is named for that gift, the gift shall fall into and form part of my residuary estate."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "PET_CARE",
+      "legacyId": "pets_care",
+      "title": "Care of pets",
+      "section": "pets",
+      "order": 613,
+      "include": {
+        "==": [
+          {
+            "var": "answers.hasPets"
+          },
+          "yes"
+        ]
+      },
+      "repeat": "pets",
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I ASK (without creating a binding trust) that {{carer}} take responsibility for the care of my {{animal}} named {{petName}}."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "PET_FUND",
+      "legacyId": "pets_fund",
+      "title": "Fund for pet care",
+      "section": "pets",
+      "order": 614,
+      "include": {
+        "==": [
+          {
+            "var": "answers.petMoney"
+          },
+          "yes"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I GIVE the sum of {{petAmountText}} to the person or persons who assume the care of my animals, to be applied by them towards that care, without any obligation to account."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "RES_PARTNER",
+      "legacyId": "residue_partner",
+      "title": "Residue — everything to partner",
+      "section": "residue",
+      "order": 715,
+      "include": {
+        "==": [
+          {
+            "var": "answers.residueStructure"
+          },
+          "all_partner"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I GIVE the whole of my residuary estate to {{residuePrimary}}, or if they do not survive me by thirty (30) days, to {{residueSecondary}}."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "RES_CHILDREN",
+      "legacyId": "residue_children",
+      "title": "Residue — equally between children",
+      "section": "residue",
+      "order": 716,
+      "include": {
+        "==": [
+          {
+            "var": "answers.residueStructure"
+          },
+          "split_children"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "per_stirpes",
+          "when": {
+            "==": [
+              {
+                "var": "answers.backupRule"
+              },
+              "children_take"
+            ]
+          },
+          "text": "I GIVE the whole of my residuary estate to such of my children as survive me by thirty (30) days in equal shares, provided that if any child of mine predeceases me leaving children who survive me, those grandchildren shall take in equal shares the share their parent would have taken."
+        },
+        {
+          "id": "equal_only",
+          "when": null,
+          "text": "I GIVE the whole of my residuary estate to such of my children as survive me by thirty (30) days, in equal shares."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "RES_NAMED",
+      "legacyId": "residue_named",
+      "title": "Residue — named shares",
+      "section": "residue",
+      "order": 717,
+      "include": {
+        "in": [
+          {
+            "var": "answers.residueStructure"
+          },
+          [
+            "named",
+            "custom"
+          ]
+        ]
+      },
+      "repeat": "residueBeneficiaries",
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I GIVE {{share}}% of my residuary estate to {{name}} ({{relationship}}){{abnText}}."
+        }
+      ],
+      "lawyerNotes": "Shares must total 100%. Verify charity ABN and exact legal name.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "RES_CUSTOM_NOTE",
+      "legacyId": "residue_custom_note",
+      "title": "Residue — bespoke division (to be drafted)",
+      "section": "residue",
+      "order": 718,
+      "include": {
+        "==": [
+          {
+            "var": "answers.residueStructure"
+          },
+          "custom"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "DRAFTING NOTE — client instructions for division of residue: {{residueCustomNote}}"
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "RES_ULTIMATE",
+      "legacyId": "residue_ultimate",
+      "title": "Ultimate default beneficiary",
+      "section": "residue",
+      "order": 722,
+      "include": null,
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IF the trusts of my residuary estate fail entirely, I GIVE my residuary estate to {{ultimateBeneficiary}} absolutely."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "GO_CHILDREN_TAKE",
+      "legacyId": "backup_children_take",
+      "title": "Survivorship — children take their parent's share",
+      "section": "giftover",
+      "order": 819,
+      "include": {
+        "==": [
+          {
+            "var": "answers.backupRule"
+          },
+          "children_take"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IF any beneficiary of my residuary estate does not survive me by thirty (30) days but leaves children who do survive me, those children shall take, in equal shares, the share their parent would have taken."
+        }
+      ],
+      "lawyerNotes": "Standard per stirpes substitution. Confirm client understands grandchildren take the parent share.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "GO_REDISTRIBUTE",
+      "legacyId": "backup_redistribute",
+      "title": "Survivorship — share redistributed",
+      "section": "giftover",
+      "order": 820,
+      "include": {
+        "==": [
+          {
+            "var": "answers.backupRule"
+          },
+          "redistribute"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IF any beneficiary of my residuary estate does not survive me by thirty (30) days, their share shall be divided among the surviving beneficiaries in proportion to their own shares."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "GO_CUSTOM",
+      "legacyId": "backup_custom",
+      "title": "Survivorship — bespoke rule (to be drafted)",
+      "section": "giftover",
+      "order": 821,
+      "include": {
+        "==": [
+          {
+            "var": "answers.backupRule"
+          },
+          "custom"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "DRAFTING NOTE — client instructions if a beneficiary dies first: {{backupCustomNote}}"
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "TRUST_MINORS",
+      "legacyId": "minors_trust",
+      "title": "Trust for beneficiaries under 18",
+      "section": "trusts",
+      "order": 923,
+      "include": {
+        "==": [
+          {
+            "var": "derived.hasMinorChildren"
+          },
+          true
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IF any beneficiary entitled under this will is under eighteen (18) years of age, my trustee shall HOLD that beneficiary's share on trust until they attain eighteen (18) years, with power to apply income and capital for their maintenance, education and advancement."
+        }
+      ],
+      "lawyerNotes": "Confirm vesting age and trustee powers of advancement.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "TRUST_DEFERRED_AGE",
+      "legacyId": "deferred_age_trust",
+      "title": "Inheritance held to a later age",
+      "section": "trusts",
+      "order": 924,
+      "include": {
+        "in": [
+          {
+            "var": "answers.trustChoice"
+          },
+          [
+            "trust_21",
+            "trust_25",
+            "trust_30"
+          ]
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "single_age",
+          "when": null,
+          "text": "NOTWITHSTANDING the clause above, my trustee shall hold each child’s share on trust until that child attains the age of {{trustAgeText}} years, applying income and capital in the meantime for their maintenance, education, advancement and benefit as my trustee thinks fit."
+        },
+        {
+          "id": "staged",
+          "when": {
+            "==": [
+              {
+                "var": "answers.trustStaged"
+              },
+              "yes"
+            ]
+          },
+          "text": "NOTWITHSTANDING the clause above, my trustee shall hold each child’s share on trust and pay one half of it when that child attains twenty-one (21) years and the balance when that child attains {{trustAgeText}} years, applying income and capital in the meantime for their maintenance, education, advancement and benefit."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "TRUST_PROTECTIVE",
+      "legacyId": "protective_trust",
+      "title": "Protective trust for a vulnerable beneficiary",
+      "section": "trusts",
+      "order": 925,
+      "include": {
+        "==": [
+          {
+            "var": "answers.vulnerableBeneficiary"
+          },
+          "yes"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "WHERE any beneficiary is, at my death, under a legal incapacity or in receipt of means-tested government support, my trustee may HOLD that beneficiary's share on a protective trust and apply income and capital for their benefit, having regard to preserving their entitlement to that support."
+        }
+      ],
+      "lawyerNotes": "For means-tested beneficiaries consider a Special Disability Trust instead.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "STMT_EXCLUSION",
+      "legacyId": "exclusion_statement",
+      "title": "Statement of exclusion",
+      "section": "statements",
+      "order": 1026,
+      "include": {
+        "==": [
+          {
+            "var": "answers.excludingAnyone"
+          },
+          "yes"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I DECLARE that I have made no provision in this will for {{excludedNames}}. This decision has been made after careful consideration. My stated reasons include: {{exclusionReason}}"
+        }
+      ],
+      "lawyerNotes": "Record detailed reasons on file; consider a separate statement of testamentary intention.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "POW_DIGITAL",
+      "legacyId": "digital_memorandum",
+      "title": "Digital assets direction",
+      "section": "powers",
+      "order": 1135,
+      "include": {
+        "or": [
+          {
+            "==": [
+              {
+                "var": "answers.hasDigitalAssets"
+              },
+              "yes"
+            ]
+          },
+          {
+            "==": [
+              {
+                "var": "derived.hasDigitalGift"
+              },
+              true
+            ]
+          }
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I DIRECT my executor to deal with my digital assets — including online accounts, digital photographs, domain names and cryptocurrency holdings — in accordance with the confidential memorandum I have left with my solicitor."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "POW_TRUSTEE",
+      "legacyId": "trustee_powers",
+      "title": "Trustee powers",
+      "section": "powers",
+      "order": 1136,
+      "include": null,
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "MY TRUSTEE may exercise all powers conferred by law, including the power to sell, postpone sale, invest, and to appropriate any part of my estate in satisfaction of any gift, without the consent of any beneficiary."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "POW_DEBTS",
+      "legacyId": "debts_duties",
+      "title": "Debts and duties",
+      "section": "powers",
+      "order": 1137,
+      "include": null,
+      "optional": false,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I DIRECT that my just debts, funeral and testamentary expenses, and all duties payable on my death, be paid out of my residuary estate."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "FUN_BURIAL",
+      "legacyId": "funeral_burial",
+      "title": "Burial wish",
+      "section": "funeral",
+      "order": 1227,
+      "include": {
+        "==": [
+          {
+            "var": "answers.funeralWish"
+          },
+          "burial"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IT IS MY WISH that my body be buried{{funeralLocationText}}{{serviceTypeText}}. I ask that my executor consult my family on the arrangements."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "FUN_CREMATION",
+      "legacyId": "funeral_cremation",
+      "title": "Cremation wish",
+      "section": "funeral",
+      "order": 1228,
+      "include": {
+        "==": [
+          {
+            "var": "answers.funeralWish"
+          },
+          "cremation"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IT IS MY WISH that my body be cremated{{funeralLocationText}}{{serviceTypeText}}. I ask that my executor consult my family on the arrangements."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "FUN_SERVICE",
+      "legacyId": "funeral_details",
+      "title": "Service details",
+      "section": "funeral",
+      "order": 1229,
+      "include": {
+        "or": [
+          {
+            "truthy": [
+              {
+                "var": "answers.funeralMusic"
+              }
+            ]
+          },
+          {
+            "truthy": [
+              {
+                "var": "answers.funeralReadings"
+              }
+            ]
+          }
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I WOULD LIKE my service to include{{funeralMusicText}}{{funeralReadingsText}}."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "FUN_DONATIONS",
+      "legacyId": "funeral_donations",
+      "title": "Donations in lieu of flowers",
+      "section": "funeral",
+      "order": 1230,
+      "include": {
+        "in": [
+          {
+            "var": "answers.flowersDonations"
+          },
+          [
+            "donations",
+            "both"
+          ]
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IN LIEU of flowers, I ask that those who wish to mark my death make a donation to {{donationCharity}}."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "FUN_PREPAID",
+      "legacyId": "prepaid_funeral",
+      "title": "Prepaid funeral plan",
+      "section": "funeral",
+      "order": 1231,
+      "include": {
+        "==": [
+          {
+            "var": "answers.prepaidFuneral"
+          },
+          "yes"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I HAVE a prepaid funeral arrangement with {{prepaidProvider}}{{prepaidPolicyText}}. My executor should contact that provider before incurring funeral expenses."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "FUN_ORGAN",
+      "legacyId": "organ_donation",
+      "title": "Organ and tissue donation wish",
+      "section": "funeral",
+      "order": 1232,
+      "include": {
+        "==": [
+          {
+            "var": "answers.organDonation"
+          },
+          "yes"
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IT IS MY WISH that my organs and tissue be donated for transplantation or medical research. I record that this wish is expressed here for my family's guidance only, and that I have registered my decision separately."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "FUN_CONTACT",
+      "legacyId": "first_contact",
+      "title": "First person to be notified",
+      "section": "funeral",
+      "order": 1233,
+      "include": {
+        "truthy": [
+          {
+            "var": "answers.firstContactName"
+          }
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "I ASK that {{firstContactName}} ({{firstContactPhone}}) be among the first people notified of my death."
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "FUN_MESSAGE",
+      "legacyId": "personal_message",
+      "title": "Personal message",
+      "section": "funeral",
+      "order": 1234,
+      "include": {
+        "truthy": [
+          {
+            "var": "answers.personalMessage"
+          }
+        ]
+      },
+      "optional": true,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "TO THOSE I LOVE: {{personalMessage}}"
+        }
+      ],
+      "lawyerNotes": "Firm to confirm wording suits the client’s circumstances.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "TEST_TESTIMONIUM",
+      "legacyId": null,
+      "title": "Testimonium",
+      "section": "testimonium",
+      "order": 1301,
+      "include": null,
+      "optional": false,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "IN WITNESS of which I have signed this my Will, consisting of this and the preceding pages, on the date written below."
+        }
+      ],
+      "lawyerNotes": "Testimonium must immediately precede the attestation clause and signature block.",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    },
+    {
+      "id": "ATT_EXECUTION",
+      "legacyId": "execution_block",
+      "title": "Execution (Succession Act 1981 (Qld) s 10)",
+      "section": "attestation",
+      "order": 1438,
+      "include": null,
+      "optional": false,
+      "variants": [
+        {
+          "id": "standard",
+          "when": null,
+          "text": "SIGNED by the will-maker {{fullName}} as and for their last Will, in our presence, both of us being present at the same time, and signed by us in the presence of the will-maker and of each other."
+        }
+      ],
+      "lawyerNotes": "Attestation must comply with s 10 Succession Act 1981 (Qld). Neither witness may be a beneficiary or the spouse of a beneficiary (s 11).",
+      "version": "0.9.0-draft",
+      "status": "DRAFT: firm to approve",
+      "approvedBy": null,
+      "approvedOn": null
+    }
+  ]
+}
